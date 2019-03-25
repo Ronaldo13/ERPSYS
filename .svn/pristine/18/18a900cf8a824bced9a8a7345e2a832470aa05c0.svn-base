@@ -1,0 +1,176 @@
+package com.hqyj.service.im.hth;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Service;
+
+import com.hqyj.mapper.hth.ErpsysAccountsReceivableMapper;
+import com.hqyj.mapper.hth.ErpsysAccountsPayableMapper;
+import com.hqyj.model.hth.ErpsysAccountsPayable;
+import com.hqyj.service.hth.FinancialManagementAccountsPayableService;
+
+@Service
+public class FinancialManagementAccountsPayableServiceImpl implements FinancialManagementAccountsPayableService {
+
+	SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+	// 应收账务Mapper
+	@Resource
+	private ErpsysAccountsReceivableMapper earm;
+	// 应收账务账单Mapper
+	@Resource
+	private ErpsysAccountsPayableMapper erm;
+
+	@Override
+	public HttpServletRequest initFinancialManagementPage(HttpServletRequest request) {
+		// 当起始值和结束值均不为空时
+		try {
+			String pageEnd = request.getParameter("pageEnd");// 判断是否需要跳转到最后一页
+			String searchName = "%%";
+			String searchAccountsPayableName = "%%";
+			Integer pageNo = 1;
+			Integer pageSize = 10;
+			Integer totalRecords = 0;
+			if ("".equals(request.getParameter("pageNo")) == false && request.getParameter("pageNo") != null) {
+				pageNo = Integer.parseInt(request.getParameter("pageNo"));
+			}
+			if ("".equals(request.getParameter("searchName")) == false && request.getParameter("searchName") != null) {
+				searchName = "%" + request.getParameter("searchName") + "%";
+			}
+			if ("".equals(request.getParameter("searchAccountsPayableName")) == false
+					&& request.getParameter("searchAccountsPayableName") != null) {
+				searchAccountsPayableName = "%" + request.getParameter("searchAccountsPayableName") + "%";
+			}
+			request.setAttribute("pageSize", pageSize);
+			request.setAttribute("pageNo", pageNo);// 返回相应页数的页面
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			pageNo = (pageNo - 1) * pageSize;// 将pageNo-1乘以pageSize得到数据库查询偏移量
+			map.put("pageNo", pageNo);
+			map.put("pageSize", pageSize);
+			map.put("searchName", searchName);
+			map.put("searchAccountsPayableName", searchAccountsPayableName);
+			request.setAttribute("searchName", request.getParameter("searchName"));
+			request.setAttribute("searchAccountsPayableName", request.getParameter("searchAccountsPayableName"));
+
+			List<ErpsysAccountsPayable> erpsysAccountsPayableList = erm.selectAccountsPayableByReceiverAndEnd(map);// 按需查询
+			totalRecords = erm.selectAccountsPayableByReceiverAndEndCount(map);// 查询按需筛选的总条目数
+			request.setAttribute("totalRecords", totalRecords);
+			if ("yes".equals(pageEnd)) {
+				pageNo = (int) Math.ceil((double) totalRecords / (double) pageSize);// 向上取整
+																					// 另外：向下取整是Math.floor(x)
+				request.setAttribute("pageNo", pageNo);
+			}
+			for (ErpsysAccountsPayable erpsysAccountsPayable : erpsysAccountsPayableList) {
+				if (erpsysAccountsPayable.getAccountsRecordTime() != null
+						&& "".equals(erpsysAccountsPayable.getAccountsRecordTime()) == false) {
+					String accountsPayableTimeString = sdf.format(erpsysAccountsPayable.getAccountsRecordTime());
+					erpsysAccountsPayable.setAccountsRecordTimeString(accountsPayableTimeString);
+				}
+				if (erpsysAccountsPayable.getPayTime() != null && "".equals(erpsysAccountsPayable.getPayTime()) == false) {
+					String payTimeString = sdf.format(erpsysAccountsPayable.getPayTime());
+					erpsysAccountsPayable.setPayTimeString(payTimeString);
+				}
+			}
+			request.setAttribute("erpsysAccountsPayableList", erpsysAccountsPayableList);// request接收查询出的应收账务账单
+		} catch (
+
+		Exception e) {
+			e.printStackTrace();
+			request.setAttribute("warning", "输入了非数字！");
+		}
+		return request;
+	}
+
+	/**
+	 * 初始化应收账务账单编辑页面
+	 */
+	@Override
+	public HttpServletRequest initEditAccountsPayablePage(HttpServletRequest request) {
+		String accountsPayableIdString = request.getParameter("accountsPayableId");
+		if (accountsPayableIdString != null) {
+			try {
+				int accountsPayableId = Integer.parseInt(accountsPayableIdString);
+				ErpsysAccountsPayable accountsPayable = erm.selectByPrimaryKey(accountsPayableId);
+				if (accountsPayable.getAccountsRecordTime() != null && "".equals(accountsPayable.getAccountsRecordTime()) == false) {
+					accountsPayable.setAccountsRecordTimeString(sdf.format(accountsPayable.getAccountsRecordTime()));
+				}
+				if (accountsPayable.getPayTime() != null && "".equals(accountsPayable.getPayTime()) == false) {
+					accountsPayable.setPayTimeString(sdf.format(accountsPayable.getPayTime()));
+				}
+				request.setAttribute("accountsPayable", accountsPayable);
+			} catch (Exception e) {
+
+			}
+		}
+		return request;
+	}
+
+	/**
+	 * 修改应收账务账单信息
+	 */
+	@Override
+	public int updateAccountsPayable(ErpsysAccountsPayable accountsPayable) {
+		if(accountsPayable.getPayTimeString()==null || "".equals(accountsPayable.getPayTimeString())==true){
+			accountsPayable.setPayTimeString(null);
+		}
+		return erm.updateByPrimaryKeySelective(accountsPayable);
+	}
+
+	/**
+	 * 初始化新增应收账务账单页面 日期
+	 */
+	@Override
+	public HttpServletRequest initInsertAccountsPayablePage(HttpServletRequest request) {
+		Date date = new Date();
+		String dateString = sdf.format(date);
+		request.setAttribute("NowDatetime", dateString);
+		return request;
+	}
+
+	/**
+	 * 新增应收账务账单信息
+	 */
+	@Override
+	public int insertAccountsPayable(ErpsysAccountsPayable accountsPayable) {
+		if(accountsPayable.getPayTimeString()==null || "".equals(accountsPayable.getPayTimeString())==true){
+			accountsPayable.setPayTimeString(null);
+		}
+		return erm.insertSelective(accountsPayable);
+	}
+
+	/**
+	 * 删除应收账务账单信息
+	 */
+	@Override
+	public int deleteAccountsPayable(int accountsPayableId) {
+		return erm.deleteByPrimaryKey(accountsPayableId);
+	}
+
+	/**
+	 * 批量删除应收账务账单信息
+	 */
+	@Override
+	public int PLdeleteAccountsPayable(HttpServletRequest request) {
+		int i = 0;
+		String[] accountsPayableIds = request.getParameterValues("accountsPayableIds");
+		// 循环删除所选应收账务账单
+		try {
+			for (String string : accountsPayableIds) {
+				int accountsPayableId = Integer.parseInt(string);
+				int j = erm.deleteByPrimaryKey(accountsPayableId);
+				i = i + j;
+			}
+		} catch (Exception e) {
+			return 0;
+		}
+		return i;
+	}
+
+}

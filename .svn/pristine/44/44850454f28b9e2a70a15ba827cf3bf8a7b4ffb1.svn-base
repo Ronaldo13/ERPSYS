@@ -1,0 +1,22 @@
+package com.hqyj.service.lbl;
+
+import javax.servlet.http.HttpServletRequest;
+
+public interface ProductResultService {
+
+	int insert(HttpServletRequest request);
+
+	String getPageInfo(HttpServletRequest request);
+
+	String selectProductResultTableByJson(HttpServletRequest request);
+
+	int deleteByPrimaryKey(HttpServletRequest request);
+	
+	int updateByPrimaryKey(HttpServletRequest request);
+
+	HttpServletRequest initUpdateproductresultdatePage(HttpServletRequest request);
+
+	int PLdeleteproductresultdate(HttpServletRequest request);
+
+	void selectWareHouseDate2(HttpServletRequest request);
+}

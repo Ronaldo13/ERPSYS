@@ -1,0 +1,13 @@
+package com.hqyj.mapper.lbl;
+
+import java.util.List;
+
+import com.hqyj.model.lbl.ProductModel;
+
+
+public interface ProductMapper {
+
+	List<ProductModel> selectProductDate();
+	
+	int insertProductDate();
+}

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hqyj.mapper.bt.ErpsysDepartmentMapper">
+  <resultMap id="BaseResultMap" type="com.hqyj.model.bt.ErpsysDepartment">
+    <id column="department_id" jdbcType="INTEGER" property="departmentId" />
+    <result column="department_name" jdbcType="VARCHAR" property="departmentName" />
+    <result column="department_authority_id" jdbcType="VARCHAR" property="departmentAuthorityId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    department_id, department_name, department_authority_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from erpsys_department
+    where department_id = #{departmentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from erpsys_department
+    where department_id = #{departmentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hqyj.model.bt.ErpsysDepartment">
+    insert into erpsys_department (department_id, department_name, department_authority_id
+      )
+    values (#{departmentId,jdbcType=INTEGER}, #{departmentName,jdbcType=VARCHAR}, #{departmentAuthorityId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hqyj.model.bt.ErpsysDepartment">
+    insert into erpsys_department
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="departmentId != null">
+        department_id,
+      </if>
+      <if test="departmentName != null">
+        department_name,
+      </if>
+      <if test="departmentAuthorityId != null">
+        department_authority_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="departmentId != null">
+        #{departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="departmentName != null">
+        #{departmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentAuthorityId != null">
+        #{departmentAuthorityId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hqyj.model.bt.ErpsysDepartment">
+    update erpsys_department
+    <set>
+      <if test="departmentName != null">
+        department_name = #{departmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentAuthorityId != null">
+        department_authority_id = #{departmentAuthorityId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where department_id = #{departmentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hqyj.model.bt.ErpsysDepartment">
+    update erpsys_department
+    set department_name = #{departmentName,jdbcType=VARCHAR},
+      department_authority_id = #{departmentAuthorityId,jdbcType=VARCHAR}
+    where department_id = #{departmentId,jdbcType=INTEGER}
+  </update>
+  <select id="getAllLimit" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from erpsys_department limit #{pageNoLimit},#{pageSize}
+  </select>
+  
+    <select id="getAll" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from erpsys_department
+    
+  </select>
+  
+  <select id="getAllCounts" resultType="java.lang.Integer">
+  	select count(*) from erpsys_department
+  </select>
+  
+  <select id="selectByJobID" resultMap="BaseResultMap">
+  	SELECT
+	erpsys_department.department_authority_id,
+	erpsys_department.department_id,
+	erpsys_department.department_name
+	FROM
+	erpsys_job
+	INNER JOIN erpsys_department ON erpsys_job.department_id = erpsys_department.department_id
+	WHERE job_id=#{accountJobId}
+  </select>
+</mapper>

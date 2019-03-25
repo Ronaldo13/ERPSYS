@@ -1,0 +1,70 @@
+package com.hqyj.aspect.xx;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.ibatis.jdbc.Null;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.hqyj.model.xx.InWareHouseModel;
+import com.hqyj.model.xx.OutWareHouseModel;
+import com.hqyj.model.xx.WareHouseModel;
+import com.hqyj.service.xx.WareHouseService;
+
+@Aspect
+@Component
+public class wareHouseAop {
+	@Autowired
+	WareHouseService whs;
+	//切面个人增加库存方法
+	static 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	@AfterReturning(value="execution(* com.hqyj.controller.xx.WareHouseController.AddWareDo(..))",returning="page")
+	public void AddWareDoAop(JoinPoint jp,String page) {
+		Date date=new Date();
+		Object[] jP=jp.getArgs();
+		HttpServletRequest request =(HttpServletRequest)jP[0];
+		WareHouseModel whm=(WareHouseModel)jP[1];
+		InWareHouseModel iwhm=new InWareHouseModel();
+		iwhm.setProductionWarehouseId(whm.getProductionWarehouseId());
+		iwhm.setInWarehouseNumber(whm.getProductionNumber());
+		iwhm.setInWarehouseReason("库存系统内部增加");
+		iwhm.setInWarehouseTime(date);
+		try {
+			whs.addInwareLog(iwhm);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("日志增加出错");
+		}
+	}//切面个人增加出库方法
+	@Before(value="execution(* com.hqyj.controller.xx.WareHouseController.Delete(..))")
+	public void DeleteAop(JoinPoint jp){
+		Date date = new Date();
+		Object[] jps= jp.getArgs();
+		HttpServletRequest request=(HttpServletRequest)jps[0];
+		int productionWarehouseId=Integer.parseInt(request.getParameter("id"));
+		System.out.println(productionWarehouseId);
+		WareHouseModel wareHouseModel=whs.selectByProductionWarehouseId(productionWarehouseId);
+		System.out.println(wareHouseModel);
+		OutWareHouseModel outWareHouseModel=new OutWareHouseModel();
+		outWareHouseModel.setOutWarehouseTime(date);
+		outWareHouseModel.setProductionWarehouseId(wareHouseModel.getProductionWarehouseId());
+		outWareHouseModel.setOutWarehouseNumber(wareHouseModel.getProductionNumber());
+		outWareHouseModel.setOutWarehouseReason("仓库个人出库");
+	    try {
+			whs.addOutLog(outWareHouseModel);
+		} catch (Exception e) {
+			System.out.println("增加出库日志错误");
+		}
+		
+	}
+}

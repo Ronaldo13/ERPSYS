@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hqyj.mapper.xx.OutWareHouseModelMapper">
+	<resultMap id="BaseResultMap" type="com.hqyj.model.xx.OutWareHouseModel">
+		<id column="out_warehouse_log_id" jdbcType="INTEGER" property="outWarehouseLogId" />
+		<result column="production_warehouse_id" jdbcType="INTEGER"
+			property="productionWarehouseId" />
+		<result column="out_warehouse_time" jdbcType="TIMESTAMP"
+			property="outWarehouseTime" />
+		<result column="out_warehouse_reason" jdbcType="VARCHAR"
+			property="outWarehouseReason" />
+		<result column="out_warehouse_number" jdbcType="INTEGER"
+			property="outWarehouseNumber" />
+		<result column="order_id" jdbcType="INTEGER" property="orderId" />
+		<result column="out_warehouse_status" jdbcType="VARCHAR"
+			property="outWarehouseStatus" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		out_warehouse_log_id, production_warehouse_id, out_warehouse_time, out_warehouse_reason,
+		out_warehouse_number, order_id, out_warehouse_status
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from erpsys_out_warehouse_log
+		where out_warehouse_log_id = #{outWarehouseLogId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from erpsys_out_warehouse_log
+		where out_warehouse_log_id = #{outWarehouseLogId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.hqyj.model.xx.OutWareHouseModel">
+		insert into erpsys_out_warehouse_log (out_warehouse_log_id,
+		production_warehouse_id,
+		out_warehouse_time, out_warehouse_reason,
+		out_warehouse_number, order_id, out_warehouse_status
+		)
+		values (#{outWarehouseLogId,jdbcType=INTEGER},
+		#{productionWarehouseId,jdbcType=INTEGER},
+		#{outWarehouseTime,jdbcType=TIMESTAMP},
+		#{outWarehouseReason,jdbcType=VARCHAR},
+		#{outWarehouseNumber,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER},
+		#{outWarehouseStatus,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.hqyj.model.xx.OutWareHouseModel">
+		insert into erpsys_out_warehouse_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="outWarehouseLogId != null">
+				out_warehouse_log_id,
+			</if>
+			<if test="productionWarehouseId != null">
+				production_warehouse_id,
+			</if>
+			<if test="outWarehouseTime != null">
+				out_warehouse_time,
+			</if>
+			<if test="outWarehouseReason != null">
+				out_warehouse_reason,
+			</if>
+			<if test="outWarehouseNumber != null">
+				out_warehouse_number,
+			</if>
+			<if test="orderId != null">
+				order_id,
+			</if>
+			<if test="outWarehouseStatus != null">
+				out_warehouse_status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="outWarehouseLogId != null">
+				#{outWarehouseLogId,jdbcType=INTEGER},
+			</if>
+			<if test="productionWarehouseId != null">
+				#{productionWarehouseId,jdbcType=INTEGER},
+			</if>
+			<if test="outWarehouseTime != null">
+				#{outWarehouseTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="outWarehouseReason != null">
+				#{outWarehouseReason,jdbcType=VARCHAR},
+			</if>
+			<if test="outWarehouseNumber != null">
+				#{outWarehouseNumber,jdbcType=INTEGER},
+			</if>
+			<if test="orderId != null">
+				#{orderId,jdbcType=INTEGER},
+			</if>
+			<if test="outWarehouseStatus != null">
+				#{outWarehouseStatus,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.hqyj.model.xx.OutWareHouseModel">
+		update erpsys_out_warehouse_log
+		<set>
+			<if test="productionWarehouseId != null">
+				production_warehouse_id = #{productionWarehouseId,jdbcType=INTEGER},
+			</if>
+			<if test="outWarehouseTime != null">
+				out_warehouse_time = #{outWarehouseTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="outWarehouseReason != null">
+				out_warehouse_reason = #{outWarehouseReason,jdbcType=VARCHAR},
+			</if>
+			<if test="outWarehouseNumber != null">
+				out_warehouse_number = #{outWarehouseNumber,jdbcType=INTEGER},
+			</if>
+			<if test="orderId != null">
+				order_id = #{orderId,jdbcType=INTEGER},
+			</if>
+			<if test="outWarehouseStatus != null">
+				out_warehouse_status = #{outWarehouseStatus,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where out_warehouse_log_id = #{outWarehouseLogId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.hqyj.model.xx.OutWareHouseModel">
+		update erpsys_out_warehouse_log
+		set production_warehouse_id = #{productionWarehouseId,jdbcType=INTEGER},
+		out_warehouse_time = #{outWarehouseTime,jdbcType=TIMESTAMP},
+		out_warehouse_reason = #{outWarehouseReason,jdbcType=VARCHAR},
+		out_warehouse_number = #{outWarehouseNumber,jdbcType=INTEGER},
+		order_id = #{orderId,jdbcType=INTEGER},
+		out_warehouse_status = #{outWarehouseStatus,jdbcType=VARCHAR}
+		where out_warehouse_log_id = #{outWarehouseLogId,jdbcType=INTEGER}
+	</update>
+	<!-- ################################################# -->
+	<insert id="addOutLog" parameterType="com.hqyj.model.xx.OutWareHouseModel">
+		insert into erpsys_out_warehouse_log (production_warehouse_id,
+		out_warehouse_time, out_warehouse_reason,
+		out_warehouse_number
+		)
+		values (#{productionWarehouseId,jdbcType=INTEGER},
+		#{outWarehouseTime,jdbcType=TIMESTAMP},
+		#{outWarehouseReason,jdbcType=VARCHAR},
+		#{outWarehouseNumber,jdbcType=INTEGER}
+		)
+	</insert>
+	<select id="selectAllOutware" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+			select *
+		from erpsys_out_warehouse_log
+		limit #{totalnumber},5
+	</select>
+		<select id="SelectAllTotal" resultType="java.lang.Integer">
+		select count(*)
+		from erpsys_out_warehouse_log
+	</select>
+</mapper>

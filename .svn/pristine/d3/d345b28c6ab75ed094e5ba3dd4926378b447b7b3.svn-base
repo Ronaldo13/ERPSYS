@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hqyj.mapper.hth.ErpsysRecordMapper">
+	<resultMap id="BaseResultMap" type="com.hqyj.model.hth.ErpsysRecord">
+		<id column="record_id" jdbcType="INTEGER" property="recordId" />
+		<result column="record_money" jdbcType="DOUBLE" property="recordMoney" />
+		<result column="record_reason" jdbcType="VARCHAR" property="recordReason" />
+		<result column="record_time" jdbcType="TIMESTAMP" property="recordTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		record_id, record_money, record_reason, record_time
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from erpsys_record
+		where record_id = #{recordId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		erpsys_record
+		where record_id = #{recordId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.hqyj.model.hth.ErpsysRecord">
+		insert into erpsys_record
+		(record_id, record_money, record_reason,
+		record_time)
+		values
+		(#{recordId,jdbcType=INTEGER}, #{recordMoney,jdbcType=DOUBLE},
+		#{recordReason,jdbcType=VARCHAR},
+		#{recordTimeString,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.hqyj.model.hth.ErpsysRecord">
+		insert into erpsys_record
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="recordId != null">
+				record_id,
+			</if>
+			<if test="recordMoney != null">
+				record_money,
+			</if>
+			<if test="recordReason != null">
+				record_reason,
+			</if>
+			<if test="recordTimeString != null">
+				record_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="recordId != null">
+				#{recordId,jdbcType=INTEGER},
+			</if>
+			<if test="recordMoney != null">
+				#{recordMoney,jdbcType=DOUBLE},
+			</if>
+			<if test="recordReason != null">
+				#{recordReason,jdbcType=VARCHAR},
+			</if>
+			<if test="recordTimeString != null">
+				#{recordTimeString,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.hqyj.model.hth.ErpsysRecord">
+		update erpsys_record
+		<set>
+			<if test="recordMoney != null">
+				record_money = #{recordMoney,jdbcType=DOUBLE},
+			</if>
+			<if test="recordReason != null">
+				record_reason = #{recordReason,jdbcType=VARCHAR},
+			</if>
+			<if test="recordTime != null">
+				record_time = #{recordTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where record_id = #{recordId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.hqyj.model.hth.ErpsysRecord">
+		update
+		erpsys_record
+		set record_money = #{recordMoney,jdbcType=DOUBLE},
+		record_reason = #{recordReason,jdbcType=VARCHAR},
+		record_time =
+		#{recordTime,jdbcType=TIMESTAMP}
+		where record_id =
+		#{recordId,jdbcType=INTEGER}
+	</update>
+
+	<!-- ################################################################ -->
+
+	<select id="selectAllRecord" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from erpsys_record
+	</select>
+
+	<select id="selectRecordBetweenStartAndEnd" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from erpsys_record limit #{pageNo,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+		<if test="startMoney != null">
+			<if test="endMoney != null">
+				where record_money between #{startMoney,jdbcType=INTEGER} and
+				#{endMoney,jdbcType=INTEGER} limit #{pageNo,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+			</if>
+		</if>
+		<if test="startMoney != null">
+			<if test="endMoney == null">
+				where record_money &gt; #{startMoney,jdbcType=INTEGER} limit #{pageNo,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+			</if>
+		</if>
+		<if test="startMoney == null">
+			<if test="endMoney != null">
+				where record_money &lt; #{endMoney,jdbcType=INTEGER} limit #{pageNo,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+			</if>
+		</if>
+
+	</select>
+	
+	<select id="selectRecordBetweenStartAndEndCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		
+		select count(*)
+		from erpsys_record 
+		<if test="startMoney != null">
+			<if test="endMoney != null">
+				where record_money between #{startMoney,jdbcType=INTEGER} and
+				#{endMoney,jdbcType=INTEGER} limit #{pageNo,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+			</if>
+		</if>
+		<if test="startMoney != null">
+			<if test="endMoney == null">
+				where record_money &gt; #{startMoney,jdbcType=INTEGER}
+			</if>
+		</if>
+		<if test="startMoney == null">
+			<if test="endMoney != null">
+				where record_money &lt; #{endMoney,jdbcType=INTEGER}
+			</if>
+		</if>
+
+	</select>
+
+</mapper>

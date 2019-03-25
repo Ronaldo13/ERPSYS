@@ -1,0 +1,49 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+欢迎${ErpsysBasicInformation.accountId}访问:
+    <br>
+    <table border="1">
+        <tr>
+            <th>员工编号</th>
+            <th>员工姓名</th>
+            <th>员工性别</th>
+            <th>员工照片</th>
+            <th>入职时间</th>
+            <th>学历</th>
+            <th>电话号码</th>
+            <th>身份证号码</th>
+            <th>家庭住址</th>
+            <th>电子邮箱</th>
+            <th>帐号状态</th>
+            <th colspan="2">操作</th>
+        </tr>
+        <c:forEach items="${erpsysBasicInformations}" var="erpsysBasicInformation">
+            <tr>
+                <td>${erpsysBasicInformation.accountId }</td>
+                <td>${erpsysBasicInformation.accountName}</td>
+                <td>${erpsysBasicInformation.accountSex}</td>
+                <td>${erpsysBasicInformation.accountPhoto} </td>
+                <td>${erpsysBasicInformation.accountEntryTime}</td>
+                <td>${erpsysBasicInformation.accountEduLevel}</td>
+                <td>${erpsysBasicInformation.accountPhone}</td>
+                <td>${erpsysBasicInformation.accountIdcard } </td>
+                <td>${erpsysBasicInformation.accountAddress}</td>
+                <td>${erpsysBasicInformation.accountEmail }</td>
+                <td>${erpsysBasicInformation.accountStatus}</td>
+                <td><input type="button" value="修改"/></td>
+                <td><input type="button" value="删除"/></td>
+            </tr>
+        </c:forEach>
+    </table>
+
+
+</body>
+</html>

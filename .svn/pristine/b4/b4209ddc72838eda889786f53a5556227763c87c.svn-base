@@ -1,0 +1,11 @@
+package com.hqyj.service.lbl;
+
+import java.util.List;
+
+import com.hqyj.model.lbl.ProductModel;
+
+public interface ProductService {
+	
+	List<ProductModel> selectProductDate();
+	
+}

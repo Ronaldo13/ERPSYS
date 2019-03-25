@@ -1,0 +1,75 @@
+package com.hqyj.model.hth;
+
+import java.util.Date;
+
+public class ErpsysAccountsReceivable {
+    private Integer accountsReceivableId;
+
+    private String accountsReceivableName;
+
+    private Double accountsReceivableMoney;
+
+    private String accountsPayer;
+
+    private Date accountsRecordTime;
+
+    private Integer alreadyReceived;
+
+    private Date paymentTime;
+
+    public Integer getAccountsReceivableId() {
+        return accountsReceivableId;
+    }
+
+    public void setAccountsReceivableId(Integer accountsReceivableId) {
+        this.accountsReceivableId = accountsReceivableId;
+    }
+
+    public String getAccountsReceivableName() {
+        return accountsReceivableName;
+    }
+
+    public void setAccountsReceivableName(String accountsReceivableName) {
+        this.accountsReceivableName = accountsReceivableName;
+    }
+
+    public Double getAccountsReceivableMoney() {
+        return accountsReceivableMoney;
+    }
+
+    public void setAccountsReceivableMoney(Double accountsReceivableMoney) {
+        this.accountsReceivableMoney = accountsReceivableMoney;
+    }
+
+    public String getAccountsPayer() {
+        return accountsPayer;
+    }
+
+    public void setAccountsPayer(String accountsPayer) {
+        this.accountsPayer = accountsPayer;
+    }
+
+    public Date getAccountsRecordTime() {
+        return accountsRecordTime;
+    }
+
+    public void setAccountsRecordTime(Date accountsRecordTime) {
+        this.accountsRecordTime = accountsRecordTime;
+    }
+
+    public Integer getAlreadyReceived() {
+        return alreadyReceived;
+    }
+
+    public void setAlreadyReceived(Integer alreadyReceived) {
+        this.alreadyReceived = alreadyReceived;
+    }
+
+    public Date getPaymentTime() {
+        return paymentTime;
+    }
+
+    public void setPaymentTime(Date paymentTime) {
+        this.paymentTime = paymentTime;
+    }
+}

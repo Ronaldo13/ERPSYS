@@ -1,0 +1,27 @@
+package com.hqyj.service.im.lbl;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.hqyj.mapper.lbl.ErpsysProductResultMapper;
+import com.hqyj.model.lbl.ErpsysProductResult;
+import com.hqyj.service.lbl.ProductResultService;
+
+@Service
+public class ProductResultServiceImpl implements ProductResultService{
+
+	
+	@Autowired
+	private ErpsysProductResultMapper eprm;
+	@Override
+	public int insert(HttpServletRequest request) {
+		ErpsysProductResult epr= new ErpsysProductResult();
+		epr.setProductBatch(request.getParameter("product_batch"));
+		epr.setProductionWarehouseId(Integer.parseInt(request.getParameter("production_warehouse_id")));
+		epr.setProductionOutLogId(Integer.parseInt(request.getParameter("production_out_log_id")));
+		return eprm.insert(epr);
+	}
+
+}

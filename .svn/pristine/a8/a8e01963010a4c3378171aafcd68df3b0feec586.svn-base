@@ -1,0 +1,17 @@
+package com.hqyj.service.bt;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.hqyj.model.bt.ErpsysBasicInformation;
+
+public interface ErpsysBasicInformationService {
+
+	ErpsysBasicInformation login1(String accountId, String accountPwd);
+
+	HttpServletRequest main1(HttpServletRequest request);
+
+	
+
+}

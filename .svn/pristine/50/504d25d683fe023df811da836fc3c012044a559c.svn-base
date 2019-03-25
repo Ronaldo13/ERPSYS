@@ -1,0 +1,24 @@
+package com.hqyj.mapper.lbl;
+
+import java.util.List;
+import java.util.Map;
+
+import com.hqyj.model.lbl.ErpsysProductResult;
+
+public interface ErpsysProductResultMapper {
+    int deleteByPrimaryKey(String productBatch);
+
+    int insert(ErpsysProductResult record);
+
+    int insertSelective(ErpsysProductResult record);
+
+    ErpsysProductResult selectByPrimaryKey(String productBatch);
+
+    int updateByPrimaryKeySelective(ErpsysProductResult record);
+
+    int updateByPrimaryKey(ErpsysProductResult record);
+    
+    List<ErpsysProductResult> selectProductResultDateByPage(Map<String, Object> map);
+	
+	int selectCount(String sreachKey);
+}

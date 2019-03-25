@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+		">
+	<!-- 开启MVC功能 -->
+	<mvc:annotation-driven />
+	<!-- 开启AOP功能 -->
+	<aop:aspectj-autoproxy/>
+	<!-- IOC容器自动化扫描，处理控制器和服务层 -->
+	<context:component-scan base-package="com.hqyj.controller"></context:component-scan>
+	<context:component-scan base-package="com.hqyj.service.im"></context:component-scan>
+	<!-- mybatis相关 -->
+
+	<!-- SQL工厂 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis.xml"></property>
+		<property name="mapperLocations" value="classpath*:mapper/**/*.xml" />
+	</bean>
+	<!-- 处理mapper -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.hqyj.mapper" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+	<!-- 数据库源 -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://192.168.7.128:3306/espsys" />
+		<property name="username" value="ppx" />
+		<property name="password" value="112233" />
+	</bean>
+	<!-- enable the configuration of transactional behavior based on annotations -->
+	<tx:annotation-driven transaction-manager="txManager" /><!-- 
+		a PlatformTransactionManager is still required -->
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<!-- (this dependency is defined somewhere else) -->
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- 静态资源处理 -->
+	<mvc:default-servlet-handler />
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	<!-- 文件配置 -->
+	<!-- 上传下载 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"><!--配置上传文件 -->
+		<property name="defaultEncoding" value="utf-8" /><!--默认字符编码 -->
+		<property name="maxUploadSize" value="10485760000" /><!--上传文件大小 -->
+		<property name="maxInMemorySize" value="4096" /><!--内存中的缓存大小 -->
+	</bean>
+	
+	<!-- Gson 转化工具 -->
+	<bean id="gson" class="com.google.gson.Gson"></bean>
+	<!-- end Gson -->
+</beans>

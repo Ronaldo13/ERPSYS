@@ -1,0 +1,27 @@
+package com.hqyj.mapper.bt;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.hqyj.model.bt.ErpsysBasicInformation;
+
+public interface ErpsysBasicInformationMapper {
+    int deleteByPrimaryKey(String accountId);
+
+    int insert(ErpsysBasicInformation record);
+
+    int insertSelective(ErpsysBasicInformation record);
+
+    ErpsysBasicInformation selectByPrimaryKey(String accountId);
+
+    int updateByPrimaryKeySelective(ErpsysBasicInformation record);
+
+    int updateByPrimaryKey(ErpsysBasicInformation record);
+
+	List<ErpsysBasicInformation> getAll();
+
+	ErpsysBasicInformation selectByIdAndPWD(@Param("username")String username, @Param("password")String password);
+
+	int updatePWDByUsername(@Param("npwd")String npwd, @Param("username")String username);
+}

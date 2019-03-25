@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hqyj.mapper.xsh.ErpsysBuyLogMapper">
+  <resultMap id="BaseResultMap" type="com.hqyj.model.xsh.ErpsysBuyLog">
+    <id column="buy_log_id" jdbcType="INTEGER" property="buyLogId" />
+    <result column="seller" jdbcType="VARCHAR" property="seller" />
+    <result column="buy_time" jdbcType="TIMESTAMP" property="buyTime" />
+    <result column="buy_number" jdbcType="INTEGER" property="buyNumber" />
+    <result column="in_warehouse_log_id" jdbcType="INTEGER" property="inWarehouseLogId" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    buy_log_id, seller, buy_time, buy_number, in_warehouse_log_id, order_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from erpsys_buy_log
+    where buy_log_id = #{buyLogId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from erpsys_buy_log
+    where buy_log_id = #{buyLogId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hqyj.model.xsh.ErpsysBuyLog">
+    insert into erpsys_buy_log (buy_log_id, seller, buy_time, 
+      buy_number, in_warehouse_log_id, order_id
+      )
+    values (#{buyLogId,jdbcType=INTEGER}, #{seller,jdbcType=VARCHAR}, #{buyTime,jdbcType=TIMESTAMP}, 
+      #{buyNumber,jdbcType=INTEGER}, #{inWarehouseLogId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hqyj.model.xsh.ErpsysBuyLog">
+    insert into erpsys_buy_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="buyLogId != null">
+        buy_log_id,
+      </if>
+      <if test="seller != null">
+        seller,
+      </if>
+      <if test="buyTime != null">
+        buy_time,
+      </if>
+      <if test="buyNumber != null">
+        buy_number,
+      </if>
+      <if test="inWarehouseLogId != null">
+        in_warehouse_log_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="buyLogId != null">
+        #{buyLogId,jdbcType=INTEGER},
+      </if>
+      <if test="seller != null">
+        #{seller,jdbcType=VARCHAR},
+      </if>
+      <if test="buyTime != null">
+        #{buyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="buyNumber != null">
+        #{buyNumber,jdbcType=INTEGER},
+      </if>
+      <if test="inWarehouseLogId != null">
+        #{inWarehouseLogId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hqyj.model.xsh.ErpsysBuyLog">
+    update erpsys_buy_log
+    <set>
+      <if test="seller != null">
+        seller = #{seller,jdbcType=VARCHAR},
+      </if>
+      <if test="buyTime != null">
+        buy_time = #{buyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="buyNumber != null">
+        buy_number = #{buyNumber,jdbcType=INTEGER},
+      </if>
+      <if test="inWarehouseLogId != null">
+        in_warehouse_log_id = #{inWarehouseLogId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where buy_log_id = #{buyLogId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hqyj.model.xsh.ErpsysBuyLog">
+    update erpsys_buy_log
+    set seller = #{seller,jdbcType=VARCHAR},
+      buy_time = #{buyTime,jdbcType=TIMESTAMP},
+      buy_number = #{buyNumber,jdbcType=INTEGER},
+      in_warehouse_log_id = #{inWarehouseLogId,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=INTEGER}
+    where buy_log_id = #{buyLogId,jdbcType=INTEGER}
+  </update>
+  
+  
+  <insert id="addBuyOrder" parameterType="com.hqyj.model.xsh.ErpsysBuyLog">
+    insert into erpsys_buy_log (seller, buy_time, 
+      buy_number, order_id
+      )
+    values (#{seller,jdbcType=VARCHAR}, #{buyTime,jdbcType=TIMESTAMP}, 
+      #{buyNumber,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}
+      )
+  </insert>
+  
+  
+  <select id="queryAllBuyOrder" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from erpsys_buy_log
+  </select>
+  
+  
+  <delete id="deleteBuyOrderByBuyLogId" parameterType="java.lang.Integer">
+    delete from erpsys_buy_log
+    where buy_log_id = #{buyLogId,jdbcType=INTEGER}
+  </delete>
+</mapper>

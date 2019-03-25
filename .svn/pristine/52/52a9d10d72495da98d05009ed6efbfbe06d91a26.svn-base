@@ -1,0 +1,43 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div align="center">
+		<div>
+			<h1>生产过程信息增加表</h1>
+			<hr>
+			<form action="<%=request.getContextPath()%>/lbl/addproductingdata2" method="post">
+				<table>
+					<tr>
+						<td>生产编号：</td>
+						<td><input type="text" name="product_id" value="${p.productId}"></td>
+					</tr>
+					<tr>
+						<td>生产时间：</td>
+						<td><input type="date" name="product_time"
+							value="${p.productTime}"></td>
+					</tr>
+					<tr>
+						<td>生产数量：</td>
+						<td><input type="text" name="product_number" value="${p.productNumber }"></td>
+					</tr>
+					<tr>
+						<td>生产批次：</td>
+						<td><input type="text" name="product_batch" value="${p.productBatch}"></td>
+					</tr>
+					<tr>
+						<td><input type="submit" value="确实"></td>
+						<td><input type="reset" value="重置"></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+package com.hqyj.controller.zx;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Aspect;
+import org.springframework.stereotype.Component;
+
+@Aspect
+@Component
+public class LoginAOP {
+	@AfterReturning(value="execution(* com.hqyj.controller.zx.DoLogin.dologin(javax.servlet.http.HttpServletRequest))",returning="page")
+	public void doLoginAOP(JoinPoint jp,String page) {
+		Object []ob=jp.getArgs();
+		HttpServletRequest request;
+		for (Object object : ob) {
+			request=(HttpServletRequest) object;
+			System.out.println(request.getParameter("username"));
+		}
+		System.out.println(page);
+	}
+
+}

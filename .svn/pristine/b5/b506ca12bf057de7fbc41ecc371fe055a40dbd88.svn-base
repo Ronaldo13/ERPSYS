@@ -1,0 +1,17 @@
+package com.hqyj.mapper.xsh;
+
+import com.hqyj.model.xsh.ErpsysSellLog;
+
+public interface ErpsysSellLogMapper {
+    int deleteByPrimaryKey(Integer sellLogId);
+
+    int insert(ErpsysSellLog record);
+
+    int insertSelective(ErpsysSellLog record);
+
+    ErpsysSellLog selectByPrimaryKey(Integer sellLogId);
+
+    int updateByPrimaryKeySelective(ErpsysSellLog record);
+
+    int updateByPrimaryKey(ErpsysSellLog record);
+}

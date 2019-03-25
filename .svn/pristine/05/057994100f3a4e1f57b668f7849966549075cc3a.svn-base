@@ -1,0 +1,17 @@
+package com.hqyj.mapper.hth;
+
+import com.hqyj.model.hth.ErpsysFinanceLog;
+
+public interface ErpsysFinanceLogMapper {
+    int deleteByPrimaryKey(Integer financeLogId);
+
+    int insert(ErpsysFinanceLog record);
+
+    int insertSelective(ErpsysFinanceLog record);
+
+    ErpsysFinanceLog selectByPrimaryKey(Integer financeLogId);
+
+    int updateByPrimaryKeySelective(ErpsysFinanceLog record);
+
+    int updateByPrimaryKey(ErpsysFinanceLog record);
+}

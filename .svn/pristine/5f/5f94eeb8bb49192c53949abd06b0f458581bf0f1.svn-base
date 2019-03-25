@@ -1,0 +1,115 @@
+package com.hqyj.service.im.hth;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Service;
+
+import com.hqyj.mapper.hth.ErpsysAccountsReceivableMapper;
+import com.hqyj.mapper.hth.ErpsysRecordMapper;
+import com.hqyj.model.hth.ErpsysRecord;
+import com.hqyj.service.hth.FinancialManagementService;
+
+@Service
+public class FinancialManagementServiceImpl implements FinancialManagementService {
+
+	SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+	// 应收账务Mapper
+	@Resource
+	private ErpsysAccountsReceivableMapper earm;
+	// 入账账单Mapper
+	@Resource
+	private ErpsysRecordMapper erm;
+
+	@Override
+	public HttpServletRequest initFinancialManagementPage(HttpServletRequest request) {
+		// 当起始值和结束值均不为空时
+		try {
+			Integer startMoney = null;
+			Integer endMoney = null;
+			if (request.getParameter("startMoney") != null && request.getParameter("endMoney") != null) {
+				if ("".equals(request.getParameter("startMoney"))) {
+					startMoney = null;
+				} else {
+					startMoney = Integer.parseInt(request.getParameter("startMoney"));
+				}
+				if ("".equals(request.getParameter("endMoney"))) {
+					endMoney = null;
+				} else {
+					endMoney = Integer.parseInt(request.getParameter("endMoney"));
+				}
+				request.setAttribute("startMoney", startMoney);
+				request.setAttribute("endMoney", endMoney);
+			}
+			Map<String, Integer> map = new HashMap<String, Integer>();
+			map.put("startMoney", startMoney);
+			map.put("endMoney", endMoney);
+			List<ErpsysRecord> erpsysRecordList = erm.selectRecordBetweenStartAndEnd(map);
+			for (ErpsysRecord erpsysRecord : erpsysRecordList) {
+				if (erpsysRecord.getRecordTime() != null) {
+					String recordTimeString = sdf.format(erpsysRecord.getRecordTime());
+					erpsysRecord.setRecordTimeString(recordTimeString);
+				}
+			}
+			request.setAttribute("erpsysRecordList", erpsysRecordList);// request接收查询出的入账账单
+		} catch (
+
+		Exception e) {
+			e.printStackTrace();
+			request.setAttribute("warning", "输入了非数字！");
+
+		}
+		return request;
+
+	}
+
+	@Override
+	public HttpServletRequest initEditRecordBillPage(HttpServletRequest request) {
+		String recordIdString = request.getParameter("recordId");
+		if (recordIdString != null) {
+			try {
+				int recordId = Integer.parseInt(recordIdString);
+				ErpsysRecord record = erm.selectByPrimaryKey(recordId);
+				record.setRecordTimeString(sdf.format(record.getRecordTime()));
+				request.setAttribute("record", record);
+			} catch (Exception e) {
+
+			}
+		}
+		return request;
+	}
+
+	/**
+	 * 修改入账账单信息
+	 */
+	@Override
+	public int updateRecordBill(ErpsysRecord record) {
+		return erm.updateByPrimaryKeySelective(record);
+	}
+
+	/**
+	 * 初始化新增入账账单页面 日期
+	 */
+	@Override
+	public HttpServletRequest initInsertRecordBillPage(HttpServletRequest request) {
+		Date date = new Date();
+		String dateString = sdf.format(date);
+		request.setAttribute("NowDatetime", dateString);
+		return request;
+	}
+
+	/**
+	 * 新增入账账单信息
+	 */
+	@Override
+	public int insertRecordBill(ErpsysRecord record) {
+		return erm.insertSelective(record);
+	}
+
+}

@@ -1,0 +1,24 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<table>
+		<tr>
+			<th>出库时间</th>
+			<th>出库原因</th>
+			<th>出库数量</th>
+		</tr>
+		<tr>
+			<td>${owhm.outWarehouseTime}</td>
+			<td>${owhm.outWarehouseReason}</td>
+			<td>${owhm.outWarehouseNumber}</td>
+		</tr>
+	</table>
+</body>
+</html>

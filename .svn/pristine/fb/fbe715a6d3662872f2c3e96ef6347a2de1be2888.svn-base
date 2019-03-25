@@ -1,0 +1,190 @@
+package com.hqyj.service.im.lbl;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.google.gson.Gson;
+import com.hqyj.mapper.lbl.ErpsysOutProductionLogMapper;
+import com.hqyj.mapper.xx.InWareHouseModelMapper;
+import com.hqyj.model.lbl.ErpsysOutProductionLog;
+import com.hqyj.model.lbl.ErpsysProduct;
+import com.hqyj.model.xx.InWareHouseModel;
+import com.hqyj.service.lbl.ProductOutLogService;
+
+@Service
+public class ProductOutLogServiceImpl implements ProductOutLogService{
+
+	private static final int pagesize=2;
+	@Autowired
+	private ErpsysOutProductionLogMapper eoplm;
+	@Autowired
+	private InWareHouseModelMapper iwhmm;
+	@Autowired
+	private Gson g;
+	
+	/**
+	 * .增加
+	 */
+	@Override
+	public int insert(HttpServletRequest request) {
+		Date date1 = new Date();
+		Date date2 = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			date1=sdf.parse(request.getParameter("production_out_time")+"00:00:00");
+			date2=sdf.parse(request.getParameter("in_warehouse_time")+"00:00:00");
+			sdf.format(date1);
+			sdf.format(date2);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		ErpsysOutProductionLog eopl= new ErpsysOutProductionLog();
+		eopl.setProductionOutLogId(Integer.parseInt(request.getParameter("production_out_log_id")));
+		eopl.setInWarehouseTime(date1);
+		eopl.setProductionOutTime(date2);
+		eopl.setInWarehouseStatus(request.getParameter("in_warehouse_status"));
+		eopl.setInWarehouseLogId(Integer.parseInt(request.getParameter("in_warehouse_log_id")));
+		return eoplm.insert(eopl);
+	}
+	
+	
+	/**
+	 * .查询以及分页
+	 */
+	@Override
+	public String selectProductOutLogTableByJson(HttpServletRequest request) {
+		String n=request.getParameter("currentPage");
+		String sk=request.getParameter("sreachKey");
+		if(sk==null) {
+			sk="";
+		}
+		int start=0;
+		if(n==null) {
+			
+		}else {
+			int intN=Integer.parseInt(n);
+			start=(intN-1)*pagesize;
+		}
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("start", start);
+		map.put("size", pagesize);
+		map.put("sreachKey", "%"+sk+"%");
+		List<ErpsysOutProductionLog> list = eoplm.selectProductOutLogDateByPage(map);
+		String temp = g.toJson(list);
+		return temp;
+	}
+
+	@Override
+	public String getPageInfo(HttpServletRequest request) {
+		String sk= request.getParameter("sreachName");
+		if(sk==null) {
+			sk="";
+		}
+		int totalRecords=eoplm.selectCount("%"+sk+"%");
+		int total=totalRecords/pagesize;
+		if(totalRecords%pagesize>0) {
+			total++;
+		}
+		Map<String , String> map = new HashMap<String, String>();
+		map.put("totalRecords", totalRecords+"");
+		map.put("total", total+"");
+		return g.toJson(map);
+	}
+
+
+
+	/**
+	 * .修改
+	 */
+	@Override
+	public int updateByPrimaryKey(HttpServletRequest request) {
+		Date date1 = new Date();
+		Date date2 = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			date1=sdf.parse(request.getParameter("production_out_time"));
+			date2=sdf.parse(request.getParameter("in_warehouse_time"));
+			sdf.format(date1);
+			sdf.format(date2);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		ErpsysOutProductionLog eopl= new ErpsysOutProductionLog();
+		eopl.setProductionOutLogId(Integer.parseInt(request.getParameter("production_out_log_id")));
+		eopl.setInWarehouseTime(date1);
+		eopl.setProductionOutTime(date2);
+		eopl.setInWarehouseStatus(request.getParameter("in_warehouse_status"));
+		eopl.setInWarehouseLogId(Integer.parseInt(request.getParameter("in_warehouse_log_id")));
+		return eoplm.updateByPrimaryKey(eopl);
+	}
+
+
+	@Override
+	public HttpServletRequest initUpdateproductoutlogdatePage(HttpServletRequest request) {
+		try {
+			int productionOutLogId = Integer.parseInt(request.getParameter("productionOutLogId"));
+			ErpsysOutProductionLog erpsysOutProductionLog = eoplm.selectByPrimaryKey(productionOutLogId);
+			request.setAttribute("erpsysOutProductionLog", erpsysOutProductionLog);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String timeString1 = sdf.format(erpsysOutProductionLog.getProductionOutTime());
+			request.setAttribute("timeString1", timeString1);
+			String timeString2 = sdf.format(erpsysOutProductionLog.getInWarehouseTime());
+			request.setAttribute("timeString2", timeString2);
+		} catch (Exception e) {
+			request.setAttribute("message", "初始化界面出错！请联系管理员!");
+		}
+		return request;
+	}
+
+	/**
+	 * .删除
+	 */
+	@Override
+	public int deleteByPrimaryKey(HttpServletRequest request) {
+		Integer poli = Integer.parseInt(request.getParameter("productionOutLogId"));
+		return eoplm.deleteByPrimaryKey(poli);
+	}
+	
+	/**
+	 * .批量删除
+	 */
+	@Override
+	public int PLdeleteproductoutlogdate(HttpServletRequest request) {
+		int i= 0 ;
+		String [] productionOutLogId = request.getParameterValues("production_out_log_id");
+		try {
+			for (String string : productionOutLogId) {
+				int j = eoplm.deleteByPrimaryKey(Integer.parseInt(string));
+				i = i + j ;
+			}
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			return 0;
+		}
+		return i;
+	}
+
+
+	@Override
+	public void selectInWareHouseLog(HttpServletRequest request) {
+		InWareHouseModel iwhm =iwhmm.selectByPrimaryKey(Integer.parseInt(request.getParameter("inWarehouseLogId")));
+		request.setAttribute("iwhm", iwhm);
+		
+	}
+
+}

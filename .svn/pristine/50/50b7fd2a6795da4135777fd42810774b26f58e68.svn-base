@@ -1,0 +1,23 @@
+package com.hqyj.service.xx;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.hqyj.model.xx.WareHouseModel;
+
+public interface WareHouseService {
+
+	List<WareHouseModel> SelectAllWare();
+
+	void AddWareDo(HttpServletRequest request, WareHouseModel wareHouseModel);
+
+	void Delete(HttpServletRequest request);
+
+	void batchDelete(HttpServletRequest request);
+
+	void showwareByproductionWarehouseId(HttpServletRequest request);
+
+	int updateWareByWareId(WareHouseModel wareHouseModel);
+
+}

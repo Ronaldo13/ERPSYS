@@ -1,0 +1,20 @@
+package com.hqyj.service.xsh;
+
+
+import javax.servlet.http.HttpServletRequest;
+
+
+public interface BuyOrderMannagementService {
+
+	int addOrder(HttpServletRequest request);
+
+	int deleteOrderByOrderId(HttpServletRequest request);
+
+	void queryAllOrder(HttpServletRequest request);
+
+	void queryOrderByOrderId(HttpServletRequest request);
+
+	void updateOrderByOrderId(HttpServletRequest request);
+
+	
+}

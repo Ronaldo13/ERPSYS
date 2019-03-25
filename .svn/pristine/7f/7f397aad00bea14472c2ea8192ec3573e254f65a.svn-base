@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="shiroFilter"
+		class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		
+		  <property name="filters">
+	    	<map>
+	    	    <entry key="MyFilter" value-ref="MyFilter"/>
+	    	</map>
+		</property>
+		<property name="filterChainDefinitions">
+			<value>
+				<!-- # some example chain definitions: /admin/** = authc, roles[admin] 
+					/docs/** = authc, perms[document:read] #anon匿名访问 #authc认证后可以访问的页面 -->
+				<!-- zx的权限 -->
+				/style/**=anon
+				/dologin=anon
+				/MineCon/userlist=roles[admin]
+				/MineCon/donum=roles[admin]
+				/MineCon/dolist=roles[admin]
+				/MineCon/dosearch=roles[admin]
+				/MineCon/powerpage=roles[admin]
+				/MineCon/dopower=roles[admin]
+				/MineCon/logpage=roles[admin]
+				/MineCon/deletelog=roles[admin]
+				<!-- end  zx的权限 -->
+				<!-- xx 的权限 -->
+				/ware/**=MyFilter[godown,admin]
+				<!-- end  xx的权限 -->
+				
+				<!-- xsh 的权限 -->
+				/BuyOrderMannagementController/**=MyFilter[market,admin]
+				/OrderMannagementController/**=MyFilter[market,admin]
+				/SellOrderMannagementController/**=MyFilter[market,admin]
+				<!-- end  xsh的权限 -->
+				
+				<!-- lbl的权限 -->
+				/add/**=MyFilter[produce,admin]
+				/select/**=MyFilter[produce,admin] 
+				/update/**=MyFilter[produce,admin]
+				/delete/**=MyFilter[produce,admin]
+				<!-- end lbl的权限 -->
+				<!-- hth 权限 -->
+				/financialManagementAccountsPayableCtrl/**=MyFilter[finance,admin]
+				/financialManagementAccountsReceivableCtrl/**=MyFilter[finance,admin]
+				/financialManagementExpenditureBillCtrl/**=MyFilter[finance,admin]
+				/financialManagementLogCtrl/**=MyFilter[finance,admin]
+				/financialManagementRecordBillCtrl/**=MyFilter[finance,admin]
+				<!-- end hth权限 -->
+				<!-- bt 权限 -->
+				/ErpsysBasicInformation/**=MyFilter[personnel,admin]
+				/ErpsysDepartment/**=MyFilter[personnel,admin]
+				/ErpsysJob/**=MyFilter[personnel,admin]
+				<!-- end bt权限 -->
+				<!-- 系统权限 -->
+				/logout=logout
+				/login.jsp=anon
+				<!-- end系统权限 -->
+				
+				
+			</value>
+		</property>
+	</bean>
+	<bean id="securityManager"
+		class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="myRealm" />
+	</bean>
+	<bean id="lifecycleBeanPostProcessor"
+		class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+	<bean id="myRealm" class="com.hqyj.shiro.MyRealm"></bean>
+	
+	
+	<bean id="MyFilter" class="com.hqyj.shiro.MyFilter" />
+</beans>

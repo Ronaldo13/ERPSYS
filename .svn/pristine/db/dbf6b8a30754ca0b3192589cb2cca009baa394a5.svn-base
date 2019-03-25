@@ -1,0 +1,79 @@
+package com.hqyj.service.im.lbl;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.google.gson.Gson;
+import com.hqyj.mapper.lbl.ErpsysProductResultMapper;
+import com.hqyj.model.lbl.ErpsysProductResult;
+import com.hqyj.service.lbl.ProductResultService;
+
+@Service
+public class ProductResultServiceImpl implements ProductResultService {
+
+	private static final int PAGE_SIZE=2;
+	@Autowired
+	private ErpsysProductResultMapper eprm;
+	@Autowired
+	private Gson g;
+
+	@Override
+	public int insert(HttpServletRequest request) {
+		ErpsysProductResult epr = new ErpsysProductResult();
+		epr.setProductBatch(request.getParameter("product_batch"));
+		epr.setProductionWarehouseId(Integer.parseInt(request.getParameter("production_warehouse_id")));
+		epr.setProductionOutLogId(Integer.parseInt(request.getParameter("production_out_log_id")));
+		return eprm.insert(epr);
+	}
+
+	@Override
+	public String getPageInfo(HttpServletRequest request) {
+		String sk=request.getParameter("sreachKey");
+		if(sk==null) {
+			sk="";
+		}
+		int totalRecords=eprm.selectCount("%"+sk+"%");
+		int total=totalRecords/PAGE_SIZE;
+		if(totalRecords%PAGE_SIZE>0) {
+			total++;
+		}
+		Map<String, String> map=new HashMap<String, String>();
+		map.put("totalRecords", totalRecords+"");
+		map.put("total", total+"");
+		return g.toJson(map);		
+	}
+
+	@Override
+	public String selectProductResultTableByJson(HttpServletRequest request) {
+		String n = request.getParameter("n");
+		String sk = request.getParameter("sreachKey");
+		if (sk == null) {
+			sk = "";
+		}
+		int start = 0;
+		if (n == null) {
+
+		} else {
+			int intN = Integer.parseInt(n);
+			start = (intN - 1) * PAGE_SIZE;
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("size", PAGE_SIZE);
+		map.put("sreachKey", "%" + sk + "%");
+		// TODO 自动生成的方法存根
+		return g.toJson(eprm.selectProductResultDateByPage(map));
+	}
+
+	@Override
+	public int deleteByPrimaryKey(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

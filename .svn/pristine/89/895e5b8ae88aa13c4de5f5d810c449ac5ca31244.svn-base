@@ -1,0 +1,55 @@
+package com.hqyj.model.xsh;
+
+import java.util.Date;
+
+public class ErpsysBuyLog {
+    private Integer buyLogId;
+
+    private String seller;
+
+    private Date buyTime;
+
+    private Integer buyNumber;
+
+    private Integer inWarehouseLogId;
+
+    public Integer getBuyLogId() {
+        return buyLogId;
+    }
+
+    public void setBuyLogId(Integer buyLogId) {
+        this.buyLogId = buyLogId;
+    }
+
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
+    }
+
+    public Date getBuyTime() {
+        return buyTime;
+    }
+
+    public void setBuyTime(Date buyTime) {
+        this.buyTime = buyTime;
+    }
+
+    public Integer getBuyNumber() {
+        return buyNumber;
+    }
+
+    public void setBuyNumber(Integer buyNumber) {
+        this.buyNumber = buyNumber;
+    }
+
+    public Integer getInWarehouseLogId() {
+        return inWarehouseLogId;
+    }
+
+    public void setInWarehouseLogId(Integer inWarehouseLogId) {
+        this.inWarehouseLogId = inWarehouseLogId;
+    }
+}

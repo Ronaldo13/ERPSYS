@@ -1,0 +1,162 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<base href="<%=basePath%>" />
+<script src="<%=basePath%>style/js/jquery-3.1.1.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="<%=basePath%>style/lib/layui/css/layui.css">
+<link rel="stylesheet" href="<%=basePath%>style/css/kkpager_orange.css">
+<script
+	src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<script src="<%=basePath%>style/lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript"
+	src="<%=basePath%>style/js/kkpager.min.js"></script>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+
+<body>
+	<form action="<%=basePath%>ware/batchdelete">
+		<button type="button" class="btn btn-success">
+			<a href="<%=basePath%>ware/addware">添加入库库存</a>
+		</button>
+		<button type="submit" class="btn btn-danger"
+			onclick="return reallydelete()">添加出库库存</button>
+		<button type="button" class="btn btn-info" id="checkll"
+			onclick="checkall()">全选</button>
+		<table class="table table-bordered table-hover">
+			<tr>
+
+				<td>选择项</td>
+				<td>产品库存编号</td>
+				<td>名称</td>
+				<td>数量</td>
+				<td>规格型号</td>
+				<td>操作</td>
+			</tr>
+
+			<c:forEach items="${warelist}" var="warelist">
+				<tr id="warelist${warelist.productionWarehouseId}">
+					<td><input class="ckc" type="checkbox"
+						id="${warelist.productionWarehouseId}" name="check"
+						value="${warelist.productionWarehouseId }"></td>
+					<td>${warelist.productionWarehouseId }</td>
+					<td>${warelist.productionName }</td>
+					<td>${warelist.productionNumber }</td>
+					<td>${warelist.productionType }</td>
+					<td>
+						<button type="button" class="btn btn-default btn-sm"
+							onclick="change('<%=basePath%>ware/change?productionWarehouseId=${warelist.productionWarehouseId }')">
+							<span class="glyphicon glyphicon-pencil"></span> 编辑
+						</button>
+						<button type="button" class="btn btn-danger btn-sm">
+							<a
+								href="<%=basePath%>ware/delete?id=${warelist.productionWarehouseId}"
+								onclick="return reallydelete()"><span
+								class="glyphicon glyphicon-remove"></span> 删除 </a>
+						</button>
+					</td>
+				</tr>
+			</c:forEach>
+
+		</table>
+		<div align="center" style="width: 100%;" id="kkpager"></div>
+	</form>
+</body>
+
+<script>
+	var layer;
+	$(function() {
+		layui.use('layer', function() {
+			layer = layui.layer;
+		});
+	});
+	var c = false;
+	function checkall() {
+		if (c) {
+			$(".ckc").prop("checked", false);
+			c = false;
+		} else {
+			$(".ckc").prop("checked", true);
+			c = true;
+		}
+	}
+	//var a=1;
+	//reallydelete(a)
+	function reallydelete() {
+		if (confirm("您确定要删除吗？")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	function change(url) {
+		layer.open({
+			type : 2,
+			title : '库存修改',
+			area : [ '300px', '400px' ],
+			closeBtn : 1,
+			anim : 1,
+			shade : 0.9,
+			shadeClose : true,
+			content : url //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+			,
+			cancel : function() {
+				if (confirm("关闭修改吗")) {
+				} else {
+					return false
+				}
+
+				//return false 开启该代码可禁止点击该按钮关闭
+			}
+		});
+	}
+	function showMessage(message) {
+		layer.msg(message, {
+			icon : 1,
+			time : 1500
+		}, function() {
+			//可调用函数
+		});
+	}
+	function changetable(warelist, productionName, productionNumber,
+			productionType) {
+		$("#warelist" + warelist).find("td").eq(2).text(productionName);
+		$("#warelist" + warelist).find("td").eq(3).text(productionNumber);
+		$("#warelist" + warelist).find("td").eq(4).text(productionType);
+	}
+	//init
+	$(function(){
+		var page=${pageNo}
+		var totalInventory=${totalInventory}
+		var totalPage=Math.ceil(totalInventory/5)
+		//生成分页
+		//有些参数是可选的，比如lang，若不传有默认值
+		kkpager.generPageHtml({
+			pno : page,
+			//总页码
+			total : totalPage,
+			//总数据条数
+			totalRecords : totalInventory,
+			mode : 'click',//默认值是link，可选link或者click
+			click : function(n){
+				// do something
+				//手动选中按钮
+				window.location.href = "ware/getAllWare.do?pageNo="+n;
+				this.selectPage(n);
+				return false;
+			}
+		});
+	});
+</script>
+</html>

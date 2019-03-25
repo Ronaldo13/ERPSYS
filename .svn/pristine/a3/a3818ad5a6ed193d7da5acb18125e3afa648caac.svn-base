@@ -1,0 +1,42 @@
+package com.hqyj.controller.xx;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.hqyj.model.xx.WareHouseModel;
+import com.hqyj.service.xx.WareHouseService;
+
+@Controller
+@RequestMapping("/ware")
+public class WareHouseController {
+	@Resource
+	WareHouseService whs;
+
+	@RequestMapping("/getAllWare.do")
+	public String SelectAllWare(HttpServletRequest request) {
+		List<WareHouseModel> wareHouseModels = whs.SelectAllWare();
+		request.setAttribute("warelist", wareHouseModels);
+		return "xx/warelist";
+	}
+
+	@RequestMapping("/addware")
+	public String AddWare() {
+		return "xx/addware";
+	}
+
+	@RequestMapping("/addware/do")
+	public String AddWareDo(HttpServletRequest request, WareHouseModel wareHouseModel) {
+		whs.AddWareDo(request, wareHouseModel);
+		System.out.println(request.getAttribute("warning"));
+		if ("success".equals(request.getAttribute("warning"))) {
+			return "forward:/ware/getAllWare.do";
+		} else {
+			return "forward:/ware/addware";
+		}
+	}
+}

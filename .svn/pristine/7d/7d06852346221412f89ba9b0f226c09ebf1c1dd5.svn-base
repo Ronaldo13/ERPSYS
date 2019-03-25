@@ -1,0 +1,17 @@
+package com.hqyj.mapper.xx;
+
+import com.hqyj.model.xx.InWareHouseModel;
+
+public interface InWareHouseModelMapper {
+    int deleteByPrimaryKey(Integer inWarehouseLogId);
+
+    int insert(InWareHouseModel record);
+
+    int insertSelective(InWareHouseModel record);
+
+    InWareHouseModel selectByPrimaryKey(Integer inWarehouseLogId);
+
+    int updateByPrimaryKeySelective(InWareHouseModel record);
+
+    int updateByPrimaryKey(InWareHouseModel record);
+}

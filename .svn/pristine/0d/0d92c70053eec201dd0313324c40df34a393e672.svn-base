@@ -1,0 +1,169 @@
+package com.hqyj.service.im.lbl;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.ibatis.transaction.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.google.gson.Gson;
+import com.hqyj.mapper.lbl.ErpsysProductMapper;
+import com.hqyj.model.hth.ErpsysExpenditure;
+import com.hqyj.model.lbl.ErpsysProduct;
+import com.hqyj.service.lbl.ProductingService;
+
+@Service
+public class ProductingServiceImpl implements ProductingService{
+
+	private static final int PAGE_SIZE=2;
+	@Autowired
+	private ErpsysProductMapper epm;
+	@Autowired
+	private Gson g;
+
+	@Override
+	public int insert(HttpServletRequest request) {
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			date = sdf.parse(request.getParameter("product_time")+"00:00:00");
+			sdf.format(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		ErpsysProduct ep=new ErpsysProduct();
+		ep.setProductId(Integer.parseInt(request.getParameter("product_id")));
+		ep.setProductTime(date);
+		ep.setProductNumber(Integer.parseInt(request.getParameter("product_number")));
+		ep.setProductBatch(request.getParameter("product_batch"));
+		return epm.insert(ep);
+	}
+	
+	/**
+	 * .查询以及分页
+	 */
+	@Override
+	public String selectProductTableByJson(HttpServletRequest request) {
+		String n=request.getParameter("currentPage");
+		String sk=request.getParameter("sreachKey");
+		if(sk==null) {
+			sk="";
+		}
+		int start=0;
+		if(n==null) {
+			
+		}else {
+			int intN=Integer.parseInt(n);
+			start=(intN-1)*PAGE_SIZE;
+		}
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("size", PAGE_SIZE);
+		map.put("sreachKey", "%"+sk+"%");
+		// TODO 自动生成的方法存根
+		return g.toJson(epm.selectProductDateByPage(map));
+	}
+	@Override
+	public String getPageInfo(HttpServletRequest request) {
+		String sk=request.getParameter("sreachKey");
+		if(sk==null) {
+			sk="";
+		}
+		int totalRecords=epm.selectCount("%"+sk+"%");
+		int total=totalRecords/PAGE_SIZE;
+		if(totalRecords%PAGE_SIZE>0) {
+			total++;
+		}
+		Map<String, String> map=new HashMap<String, String>();
+		map.put("totalRecords", totalRecords+"");
+		map.put("total", total+"");
+		return g.toJson(map);
+	}
+
+	
+	
+
+
+	/**
+	 * .修改
+	 * @param request
+	 * @return
+	 */
+	@Override
+	public int updateByPrimaryKey(HttpServletRequest request) {
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			date = sdf.parse(request.getParameter("product_time"));
+			sdf.format(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ErpsysProduct ep=new ErpsysProduct();
+		ep.setProductId(Integer.parseInt(request.getParameter("product_id")));
+		ep.setProductTime(date);
+		ep.setProductNumber(Integer.parseInt(request.getParameter("product_number")));
+		ep.setProductBatch(request.getParameter("product_batch"));
+		return epm.updateByPrimaryKey(ep);
+	}
+
+	@Override
+	public HttpServletRequest initUpdateproductdatePage(HttpServletRequest request) {
+		try {
+			int productId = Integer.parseInt(request.getParameter("productId"));
+			ErpsysProduct erpsysProduct = epm.selectByPrimaryKey(productId);
+			request.setAttribute("erpsysProduct", erpsysProduct);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String timeString = sdf.format(erpsysProduct.getProductTime());
+			request.setAttribute("timeString", timeString);
+		} catch (Exception e) {
+			request.setAttribute("message", "初始化界面出错！请联系管理员!");
+		}
+		return request;
+	}
+	
+	
+	/**
+	 * .删除
+	 * @param request
+	 * @return
+	 */
+	@Override
+	public int deleteByPrimaryKey(HttpServletRequest request) {
+		return epm.deleteByPrimaryKey(Integer.parseInt(request.getParameter("productId")));
+		
+	}
+
+	/**
+	 * .批量删除
+	 */
+	@Override
+	public int PLdeleteproductdate(HttpServletRequest request) {
+		int i = 0;
+		String [] productId = request.getParameterValues("product_id");
+		try {
+			for (String string : productId) {
+				int j = epm.deleteByPrimaryKey(Integer.parseInt(string));
+				i = i+j;
+			}
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			return 0;
+		}
+		return i ;
+	}
+
+
+
+}
+
+

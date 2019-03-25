@@ -1,0 +1,27 @@
+package com.hqyj.service.im.lbl;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.hqyj.mapper.lbl.ErpsysProductMaterialConsumeMapper;
+import com.hqyj.model.lbl.ErpsysProductMaterialConsume;
+import com.hqyj.service.lbl.ProductMaterialService;
+
+@Service
+public class ProductMaterialServiceImpl implements ProductMaterialService{
+
+	
+	@Autowired
+	private ErpsysProductMaterialConsumeMapper epmcm;
+	@Override
+	public int insert(HttpServletRequest request) {
+		ErpsysProductMaterialConsume epmc = new ErpsysProductMaterialConsume();
+		epmc.setProductBatch(request.getParameter("product_batch"));
+		epmc.setProductionWarehouseId(Integer.parseInt(request.getParameter("production_warehouse_id")));
+		epmc.setOutWarehouseLogId(Integer.parseInt(request.getParameter("out_warehouse_log_id")));
+		return epmcm.insert(epmc);
+	}
+
+}

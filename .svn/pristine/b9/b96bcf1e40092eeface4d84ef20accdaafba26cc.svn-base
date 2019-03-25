@@ -1,0 +1,17 @@
+package com.hqyj.mapper.lbl;
+
+import com.hqyj.model.lbl.ErpsysOutProductionLog;
+
+public interface ErpsysOutProductionLogMapper {
+    int deleteByPrimaryKey(Integer productionOutLogId);
+
+    int insert(ErpsysOutProductionLog record);
+
+    int insertSelective(ErpsysOutProductionLog record);
+
+    ErpsysOutProductionLog selectByPrimaryKey(Integer productionOutLogId);
+
+    int updateByPrimaryKeySelective(ErpsysOutProductionLog record);
+
+    int updateByPrimaryKey(ErpsysOutProductionLog record);
+}

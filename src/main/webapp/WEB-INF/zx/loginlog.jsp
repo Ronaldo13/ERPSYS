@@ -1,0 +1,41 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登录日志</title>
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<form action="deletelog" method="post">
+<button type="submit" class="btn btn-danger">批量删除</button>
+<table class="table table-bordered table-hover">
+	<tr>
+		<th>选择</th>
+		<th>序号</th>
+		<th>账号</th>
+		<th>时间</th>
+		<th>登录状态</th>
+		<th>操作</th>
+	</tr>
+	
+	<c:forEach items="${ellList}" var="ell">
+		<tr>
+			<td><input name="logids" type="checkbox" value="${ell.erpsysLoginlogId }"> </td>
+			<td>${ell.erpsysLoginlogId }</td>
+			<td>${ell.erpsysLoginAccountId }</td>
+			<td><fmt:formatDate value="${ell.erpsysLoginDate }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+			<td>${ell.erpsysLoginState }</td>
+			<td><a href="deletelog?logid=${ell.erpsysLoginlogId }">删除</a></td>
+		</tr>
+	</c:forEach>
+	
+</table>
+</form>
+</body>
+</html>

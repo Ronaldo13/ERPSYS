@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hqyj.mapper.lbl.ErpsysProductMapper">
+  <resultMap id="BaseResultMap" type="com.hqyj.model.lbl.ErpsysProduct">
+    <id column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="product_time" jdbcType="TIMESTAMP" property="productTime" />
+    <result column="product_number" jdbcType="INTEGER" property="productNumber" />
+    <result column="product_batch" jdbcType="VARCHAR" property="productBatch" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    product_id, product_time, product_number, product_batch
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from erpsys_product
+    where product_id = #{productId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from erpsys_product
+    where product_id = #{productId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hqyj.model.lbl.ErpsysProduct">
+    insert into erpsys_product (product_id, product_time, product_number, 
+      product_batch)
+    values (#{productId,jdbcType=INTEGER}, #{productTime,jdbcType=TIMESTAMP}, #{productNumber,jdbcType=INTEGER}, 
+      #{productBatch,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hqyj.model.lbl.ErpsysProduct">
+    insert into erpsys_product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="productTime != null">
+        product_time,
+      </if>
+      <if test="productNumber != null">
+        product_number,
+      </if>
+      <if test="productBatch != null">
+        product_batch,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productId != null">
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="productTime != null">
+        #{productTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productNumber != null">
+        #{productNumber,jdbcType=INTEGER},
+      </if>
+      <if test="productBatch != null">
+        #{productBatch,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hqyj.model.lbl.ErpsysProduct">
+    update erpsys_product
+    <set>
+      <if test="productTime != null">
+        product_time = #{productTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productNumber != null">
+        product_number = #{productNumber,jdbcType=INTEGER},
+      </if>
+      <if test="productBatch != null">
+        product_batch = #{productBatch,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where product_id = #{productId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hqyj.model.lbl.ErpsysProduct">
+    update erpsys_product
+    set product_time = #{productTime,jdbcType=TIMESTAMP},
+      product_number = #{productNumber,jdbcType=INTEGER},
+      product_batch = #{productBatch,jdbcType=VARCHAR}
+    where product_id = #{productId,jdbcType=INTEGER}
+  </update>
+  
+  
+  
+  
+  <!-- ################################################################################### -->
+
+</mapper>

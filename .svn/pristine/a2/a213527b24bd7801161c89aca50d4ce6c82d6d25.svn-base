@@ -1,0 +1,13 @@
+package com.hqyj.service.hth;
+
+import javax.servlet.http.HttpServletRequest;
+
+public interface FinancialManagementService {
+
+	HttpServletRequest initFinancialManagementPage(HttpServletRequest request);
+
+	HttpServletRequest initEditRecordBillPage(HttpServletRequest request);
+	
+	
+	
+}

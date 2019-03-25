@@ -1,0 +1,83 @@
+package com.hqyj.service.im.xx;
+
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.hqyj.mapper.xx.WareHouseModelMapper;
+import com.hqyj.model.xx.WareHouseModel;
+import com.hqyj.service.xx.WareHouseService;
+
+@Service
+public class WareHouseServiceImpl implements WareHouseService{
+	@Autowired
+	WareHouseModelMapper whmm;
+
+	@Override
+	public List<WareHouseModel> SelectAllWare(int totalnumber) {
+		// TODO Auto-generated method stub
+		return whmm.SelectAllWare(totalnumber);
+	}
+
+	@Override
+	public void AddWareDo(HttpServletRequest request,WareHouseModel wareHouseModel) {
+		/*Date date=new Date();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String newtime= sdf.format(date);*/
+		int result= whmm.AddWareDo(wareHouseModel);
+		if ( result!=0) {
+			request.setAttribute("warning", "success");
+		}else {
+			request.setAttribute("warning", "fail");
+		}
+		
+		
+	}
+
+	@Override
+	public void Delete(HttpServletRequest request) {
+		String id= request.getParameter("id");
+		Integer ids=Integer.parseInt(id);
+		whmm.DeleteByProductionWarehouseId(ids);
+		
+	}
+
+	@Override
+	public void batchDelete(HttpServletRequest request) {
+			String[] checkid=	request.getParameterValues("check");
+			for (String string : checkid) {
+				Integer ckid=Integer.parseInt(string);
+				whmm.DeleteByProductionWarehouseId(ckid);
+			}
+
+	}
+
+	@Override
+	public void showwareByproductionWarehouseId(HttpServletRequest request) {
+		String productionWarehouseId= request.getParameter("productionWarehouseId");
+		Integer ids=Integer.parseInt(productionWarehouseId);
+		WareHouseModel wareHouseModel= whmm.seleByproductionWarehouseId(ids);
+		request.setAttribute("wareHouseModel", wareHouseModel);
+	}
+
+	@Override
+	public int updateWareByWareId(WareHouseModel wareHouseModel) {
+		
+		return whmm.updateWareByWareId(wareHouseModel);
+	}
+
+	@Override
+	public Integer SelectAllTotal() {
+		return whmm.SelectAllTotal();
+	}
+
+	@Override
+	public List<WareHouseModel> SelectAllWare() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

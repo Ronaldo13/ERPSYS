@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hqyj.mapper.hth.ErpsysExpenditureMapper">
+  <resultMap id="BaseResultMap" type="com.hqyj.model.hth.ErpsysExpenditure">
+    <id column="expenditure_id" jdbcType="INTEGER" property="expenditureId" />
+    <result column="expenditure_money" jdbcType="DOUBLE" property="expenditureMoney" />
+    <result column="expenditure_reason" jdbcType="VARCHAR" property="expenditureReason" />
+    <result column="expenditure_time" jdbcType="TIMESTAMP" property="expenditureTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    expenditure_id, expenditure_money, expenditure_reason, expenditure_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from erpsys_expenditure
+    where expenditure_id = #{expenditureId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from erpsys_expenditure
+    where expenditure_id = #{expenditureId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hqyj.model.hth.ErpsysExpenditure">
+    insert into erpsys_expenditure (expenditure_id, expenditure_money, expenditure_reason, 
+      expenditure_time)
+    values (#{expenditureId,jdbcType=INTEGER}, #{expenditureMoney,jdbcType=DOUBLE}, #{expenditureReason,jdbcType=VARCHAR}, 
+      #{expenditureTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hqyj.model.hth.ErpsysExpenditure">
+    insert into erpsys_expenditure
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="expenditureId != null">
+        expenditure_id,
+      </if>
+      <if test="expenditureMoney != null">
+        expenditure_money,
+      </if>
+      <if test="expenditureReason != null">
+        expenditure_reason,
+      </if>
+      <if test="expenditureTime != null">
+        expenditure_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="expenditureId != null">
+        #{expenditureId,jdbcType=INTEGER},
+      </if>
+      <if test="expenditureMoney != null">
+        #{expenditureMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="expenditureReason != null">
+        #{expenditureReason,jdbcType=VARCHAR},
+      </if>
+      <if test="expenditureTime != null">
+        #{expenditureTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hqyj.model.hth.ErpsysExpenditure">
+    update erpsys_expenditure
+    <set>
+      <if test="expenditureMoney != null">
+        expenditure_money = #{expenditureMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="expenditureReason != null">
+        expenditure_reason = #{expenditureReason,jdbcType=VARCHAR},
+      </if>
+      <if test="expenditureTime != null">
+        expenditure_time = #{expenditureTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where expenditure_id = #{expenditureId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hqyj.model.hth.ErpsysExpenditure">
+    update erpsys_expenditure
+    set expenditure_money = #{expenditureMoney,jdbcType=DOUBLE},
+      expenditure_reason = #{expenditureReason,jdbcType=VARCHAR},
+      expenditure_time = #{expenditureTime,jdbcType=TIMESTAMP}
+    where expenditure_id = #{expenditureId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hqyj.mapper.lbl.ErpsysOutProductionLogMapper">
+  <resultMap id="BaseResultMap" type="com.hqyj.model.lbl.ErpsysOutProductionLog">
+    <id column="production_out_log_id" jdbcType="INTEGER" property="productionOutLogId" />
+    <result column="production_out_time" jdbcType="TIMESTAMP" property="productionOutTime" />
+    <result column="in_warehouse_status" jdbcType="VARCHAR" property="inWarehouseStatus" />
+    <result column="in_warehouse_log_id" jdbcType="INTEGER" property="inWarehouseLogId" />
+    <result column="in_warehouse_time" jdbcType="TIMESTAMP" property="inWarehouseTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    production_out_log_id, production_out_time, in_warehouse_status, in_warehouse_log_id, 
+    in_warehouse_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from erpsys_out_production_log
+    where production_out_log_id = #{productionOutLogId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from erpsys_out_production_log
+    where production_out_log_id = #{productionOutLogId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hqyj.model.lbl.ErpsysOutProductionLog">
+    insert into erpsys_out_production_log (production_out_log_id, production_out_time, 
+      in_warehouse_status, in_warehouse_log_id, in_warehouse_time
+      )
+    values (#{productionOutLogId,jdbcType=INTEGER}, #{productionOutTime,jdbcType=TIMESTAMP}, 
+      #{inWarehouseStatus,jdbcType=VARCHAR}, #{inWarehouseLogId,jdbcType=INTEGER}, #{inWarehouseTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hqyj.model.lbl.ErpsysOutProductionLog">
+    insert into erpsys_out_production_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productionOutLogId != null">
+        production_out_log_id,
+      </if>
+      <if test="productionOutTime != null">
+        production_out_time,
+      </if>
+      <if test="inWarehouseStatus != null">
+        in_warehouse_status,
+      </if>
+      <if test="inWarehouseLogId != null">
+        in_warehouse_log_id,
+      </if>
+      <if test="inWarehouseTime != null">
+        in_warehouse_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productionOutLogId != null">
+        #{productionOutLogId,jdbcType=INTEGER},
+      </if>
+      <if test="productionOutTime != null">
+        #{productionOutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inWarehouseStatus != null">
+        #{inWarehouseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="inWarehouseLogId != null">
+        #{inWarehouseLogId,jdbcType=INTEGER},
+      </if>
+      <if test="inWarehouseTime != null">
+        #{inWarehouseTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hqyj.model.lbl.ErpsysOutProductionLog">
+    update erpsys_out_production_log
+    <set>
+      <if test="productionOutTime != null">
+        production_out_time = #{productionOutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inWarehouseStatus != null">
+        in_warehouse_status = #{inWarehouseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="inWarehouseLogId != null">
+        in_warehouse_log_id = #{inWarehouseLogId,jdbcType=INTEGER},
+      </if>
+      <if test="inWarehouseTime != null">
+        in_warehouse_time = #{inWarehouseTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where production_out_log_id = #{productionOutLogId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hqyj.model.lbl.ErpsysOutProductionLog">
+    update erpsys_out_production_log
+    set production_out_time = #{productionOutTime,jdbcType=TIMESTAMP},
+      in_warehouse_status = #{inWarehouseStatus,jdbcType=VARCHAR},
+      in_warehouse_log_id = #{inWarehouseLogId,jdbcType=INTEGER},
+      in_warehouse_time = #{inWarehouseTime,jdbcType=TIMESTAMP}
+    where production_out_log_id = #{productionOutLogId,jdbcType=INTEGER}
+  </update>
+</mapper>

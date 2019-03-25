@@ -1,0 +1,38 @@
+package com.hqyj.service.im.bt;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.hqyj.mapper.bt.ErpsysBasicInformationMapper;
+import com.hqyj.model.bt.ErpsysBasicInformation;
+import com.hqyj.service.bt.ErpsysBasicInformationService;
+
+@Service
+public class ErpsysBasicInformationServiceImpl implements ErpsysBasicInformationService{
+
+	
+	@Autowired
+	private ErpsysBasicInformationMapper ebifm;
+	
+	@Override
+	public ErpsysBasicInformation login1(String accountId, String accountPwd) {
+		
+		return null;
+	}
+
+	@Override
+	public HttpServletRequest main1(HttpServletRequest request) {
+        List<ErpsysBasicInformation> erpsysBasicInformations = ebifm.getAll(); //调用业务层方法
+        System.out.println(erpsysBasicInformations.size());
+        request.setAttribute("erpsysBasicInformations",erpsysBasicInformations);//把从数据库取到的数据放入到model中
+		return request;
+	}
+
+	
+	
+
+}

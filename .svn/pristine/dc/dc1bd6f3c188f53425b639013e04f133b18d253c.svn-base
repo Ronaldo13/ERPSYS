@@ -1,0 +1,21 @@
+package com.hqyj.mapper.lbl;
+
+
+import com.hqyj.model.lbl.ErpsysProduct;
+
+public interface ErpsysProductMapper {
+    int deleteByPrimaryKey(Integer productId);
+
+    int insert(ErpsysProduct record);
+
+    int insertSelective(ErpsysProduct record);
+
+    ErpsysProduct selectByPrimaryKey(Integer productId);
+
+    int updateByPrimaryKeySelective(ErpsysProduct record);
+
+    int updateByPrimaryKey(ErpsysProduct record);
+    
+  
+
+}

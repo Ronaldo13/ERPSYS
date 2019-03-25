@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="shiroFilter"
+		class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="filterChainDefinitions">
+			<value>
+				<!-- # some example chain definitions: /admin/** = authc, roles[admin] 
+					/docs/** = authc, perms[document:read] #anon匿名访问 #authc认证后可以访问的页面 -->
+				<!-- zx的权限 -->
+				/MineCon/userlist=roles[admin]
+				/MineCon/donum=roles[admin]
+				/MineCon/dolist=roles[admin]
+				/MineCon/dosearch=roles[admin]
+				/MineCon/powerpage=roles[admin]
+				/MineCon/dopower=roles[admin]
+				/MineCon/logpage=roles[admin]
+				/MineCon/deletelog=roles[admin]
+				/MineCon/upfilepage=roles[admin]
+				/MineCon/upfile=roles[admin]
+				/MineCon/infopage=roles[admin]
+				<!-- zx end -->
+				<!-- 系统权限 -->
+				/style/**=anon
+				/dologin=anon
+				/logout=logout
+				/login.jsp=anon
+				
+				
+				<!-- end系统权限 -->
+				
+				
+			</value>
+		</property>
+	</bean>
+	<bean id="securityManager"
+		class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="myRealm" />
+	</bean>
+	<bean id="lifecycleBeanPostProcessor"
+		class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+	<bean id="myRealm" class="com.hqyj.shiro.MyRealm"></bean>
+</beans>

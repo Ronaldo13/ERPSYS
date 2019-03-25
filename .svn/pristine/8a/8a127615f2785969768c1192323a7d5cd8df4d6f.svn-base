@@ -1,0 +1,162 @@
+package com.hqyj.controller.lbl;
+
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.hqyj.service.lbl.ProductMaterialService;
+import com.hqyj.service.lbl.ProductOutLogService;
+import com.hqyj.service.lbl.ProductResultService;
+import com.hqyj.service.lbl.ProductingService;
+
+@Controller
+@RequestMapping("/select")
+public class ProductSelectController {
+
+	
+	@Autowired
+	private ProductingService pis;
+	@Autowired
+	private ProductResultService prs;
+	@Autowired
+	private ProductMaterialService pms;
+	@Autowired
+	private ProductOutLogService pols;
+	
+	
+//	@RequestMapping("/productingDate")
+//	public String productingDate(HttpServletRequest request) {
+//		List<ErpsysProduct> list1 = pis.selectAll();
+//		request.setAttribute("list1", list1);
+//		return "lbl/producting";
+//	}
+//	
+//	@RequestMapping("/productResultDate")
+//	public String productResultDate(HttpServletRequest request) {
+//		List<ErpsysProductResult> list2 = prs.selectAll();
+//		request.setAttribute("list2", list2);
+//		return "lbl/productresult";
+//	}
+	
+	/**
+	 * .生产表
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="selectProductTable",produces="text/html; charset=UTF-8")
+	@ResponseBody
+	public String selectProductTable(HttpServletRequest request) {
+		return pis.selectProductTableByJson(request);
+	}
+	
+	@RequestMapping("/getProductPageInfo")
+	@ResponseBody
+	public String getProductPageInfo(HttpServletRequest request) {
+		return pis.getPageInfo(request);
+	}
+	
+	@RequestMapping("/doProductSreach")
+	public String doSreach(HttpServletRequest request) {
+		String sendSreachName=request.getParameter("sendSreachName");
+		request.setAttribute("sendSreachName", sendSreachName);
+		return "lbl/producting";
+	}
+	/**
+	 * .生产结果表
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="selectProductResultTable",produces="text/html; charset=UTF-8")
+	@ResponseBody
+	public String selectProductResultTable(HttpServletRequest request) {
+		return prs.selectProductResultTableByJson(request);
+	}
+	
+	@RequestMapping("/getProductResultPageInfo")
+	@ResponseBody
+	public String getProductResultPageInfo(HttpServletRequest request) {
+		return prs.getPageInfo(request);
+	}
+	
+	@RequestMapping("/doProductResultSreach")
+	public String doProductResultSreach(HttpServletRequest request) {
+		String sendSreachName=request.getParameter("sendSreachName");
+		request.setAttribute("sendSreachName", sendSreachName);
+		return "lbl/productresult";
+	}
+	@RequestMapping("/selectWareHouseDate2")
+	public String selectWareHouseDate2(HttpServletRequest request) {
+		prs.selectWareHouseDate2(request);
+		return "lbl/warehouse";
+		
+	}
+	
+	/**
+	 * .生产材料表
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="selectProductMaterialTable",produces="text/html; charset=UTF-8")
+	@ResponseBody
+	public String selectProductMaterialTable(HttpServletRequest request) {
+		return pms.selectProductMaterialTableByJson(request);
+	}
+	
+	@RequestMapping("/getProductMaterialPageInfo")
+	@ResponseBody
+	public String getProductMaterialPageInfo(HttpServletRequest request) {
+		return pms.getPageInfo(request);
+	}
+	
+	@RequestMapping("/doProductMaterialSreach")
+	public String doProductMaterialSreach(HttpServletRequest request) {
+		String sendSreachName=request.getParameter("sendSreachName");
+		request.setAttribute("sendSreachName", sendSreachName);
+		return "lbl/productmaterial";
+	}
+	@RequestMapping("/selectOutWareHouseLog")
+	public String selectOutWareHouseLog(HttpServletRequest request) {
+		pms.selectOutWareHouseLog(request);
+		return "lbl/outwarehouselog";
+	}
+	@RequestMapping("/selectWareHouseDate")
+	public String selectWareHouseDate(HttpServletRequest request) {
+		pms.selectWareHouseDate(request);
+		return "lbl/warehouse";
+	}
+	
+	/**
+	 * .出货日志表
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="selectProductOutLogTable",produces="text/html; charset=UTF-8")
+	@ResponseBody
+	public String selectProductOutLogTable(HttpServletRequest request) {
+		return pols.selectProductOutLogTableByJson(request);
+	}
+	
+	@RequestMapping("/getProductOutLogPageInfo")
+	@ResponseBody
+	public String getProductOutLogPageInfo(HttpServletRequest request) {
+		return pols.getPageInfo(request);
+	}
+	
+	@RequestMapping("/doProductOutLogSreach")
+	public String doProductOutLogSreach(HttpServletRequest request) {
+		String sendSreachName=request.getParameter("sendSreachName");
+		request.setAttribute("sendSreachName", sendSreachName);
+		return "lbl/productoutlog";
+	}
+	@RequestMapping("/selectInWareHouseLog")
+	public String selectInWareHouseLog(HttpServletRequest request) {
+		pols.selectInWareHouseLog(request);
+		return "lbl/inwarehouselog";
+	}
+
+	
+}

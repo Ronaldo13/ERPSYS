@@ -1,0 +1,86 @@
+package com.hqyj.controller.xsh;
+
+
+import java.io.UnsupportedEncodingException;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.hqyj.service.xsh.BuyOrderMannagementService;
+
+@Controller
+@RequestMapping("/BuyOrderMannagementController")
+public class BuyOrderMannagementController {
+
+	@Resource
+	private  BuyOrderMannagementService bms;
+	
+	
+	@RequestMapping("/buy")
+	public String BuyOrderMannagement() {
+		
+		System.out.println("pp");
+		
+		return "xsh/BuyMannagement";
+		
+	}
+	
+	@RequestMapping("/increase")
+	public String IncreaseOrder() {
+		
+		System.out.println("xx");
+		
+		return "xsh/Increase";
+		
+	}
+	
+	@RequestMapping("/IncreaseOrder")
+	public String IncreaseOrderMannagement(HttpServletRequest request) {
+		
+		bms.addOrder(request);
+		
+		return "redirect:/BuyOrderMannagementController/queryAlltOrder";
+		
+	}
+	@RequestMapping("/deleteOrder")
+	public String deleteOrder(HttpServletRequest request){
+		
+		bms.deleteOrderByOrderId(request);
+		System.out.println("aa");
+		return "redirect:/BuyOrderMannagementController/queryAlltOrder";
+	
+	}
+	@RequestMapping(value="/queryAlltOrder",produces="text/html; charset=UTF-8")
+	public String queryAlltOrder(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+		response.setHeader("Content-Type", "text/html;charset=UTF-8");//设置UTF-8的显示页面的类型和字符集
+		request.setCharacterEncoding("utf-8");
+		bms.queryAllOrder(request);
+		
+		return "xsh/BuyMannagement";
+		
+	}
+	
+	@RequestMapping(value="/queryOrderByOrderId",produces="text/html; charset=UTF-8")
+	public String queryOrderByOrderId(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException {
+		response.setHeader("Content-Type", "text/html;charset=UTF-8");//设置UTF-8的显示页面的类型和字符集
+		request.setCharacterEncoding("utf-8");
+		bms.queryOrderByOrderId(request);
+		
+		return "xsh/updateOrder";
+		
+	}
+	
+	@RequestMapping(value="/updateOrderByOrderId",produces="text/html; charset=UTF-8")
+	public String updateOrderByOrderId(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+		response.setHeader("Content-Type", "text/html;charset=UTF-8");//设置UTF-8的显示页面的类型和字符集
+		request.setCharacterEncoding("utf-8");
+		bms.updateOrderByOrderId(request);
+		
+		return "redirect:/BuyOrderMannagementController/queryAlltOrder";
+		
+	}
+}

@@ -1,0 +1,5 @@
+package com.hqyj.service.bt;
+
+public interface ErpsysJobService {
+
+}

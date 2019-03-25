@@ -1,0 +1,19 @@
+package com.hqyj.mapper.xx;
+
+import com.hqyj.model.xx.OutWareHouseModel;
+
+public interface OutWareHouseModelMapper {
+    int deleteByPrimaryKey(Integer outWarehouseLogId);
+
+    int insert(OutWareHouseModel record);
+
+    int insertSelective(OutWareHouseModel record);
+
+    OutWareHouseModel selectByPrimaryKey(Integer outWarehouseLogId);
+
+    int updateByPrimaryKeySelective(OutWareHouseModel record);
+
+    int updateByPrimaryKey(OutWareHouseModel record);
+
+	void addOutLog(OutWareHouseModel outWareHouseModel);
+}

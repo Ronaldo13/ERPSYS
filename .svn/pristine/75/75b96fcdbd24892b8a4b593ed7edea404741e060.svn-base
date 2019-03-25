@@ -1,0 +1,36 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>分配权限</title>
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+		<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div>
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">分配权限</h3>
+		</div>
+		<div class="panel-body" align="center">
+			<form action="dopower" method="post">
+				<input type="hidden" value="<%=request.getParameter("username")%>" name="username">
+				<input name="power" type="checkbox" value="1"/>管理员
+				<input name="power" type="checkbox" value="2"/>仓库
+				<input name="power" type="checkbox" value="3"/>市场
+				<input name="power" type="checkbox" value="4"/>员工
+				<input name="power" type="checkbox" value="5"/>生产
+				<input name="power" type="checkbox" value="6"/>人事
+				<input name="power" type="checkbox" value="7"/>财务<br>
+				<hr>
+				<input class="btn btn-warning" type="submit" value="确认" />
+				<a href="userlist" class="btn btn-danger">取消</a>
+			</form>
+		</div>
+	</div>
+</div>
+</body>
+</html>

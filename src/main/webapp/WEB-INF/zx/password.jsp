@@ -1,0 +1,48 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>修改密码</title>
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="panel panel-default">
+    <div class="panel-body">
+			<label for="name">原密码</label>
+    		<input type="text" class="form-control" id="pwd" name="pwd" placeholder="请输入原密码">
+			<label for="name">新密码</label>
+    		<input type="text" class="form-control" id="npwd" name="npwd" placeholder="请输入新密码"><br>
+			<div align="center"><button type="submit" class="btn btn-default" id="b1" disabled="disabled">提交</button></div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+	$("#b1").click(function (){
+		var pwd=$("#pwd").val();
+		var npwd=$("#npwd").val();
+		$.ajax({
+			type:"post",
+			url:"dopsw",
+			data:{"pwd":pwd,"npwd":npwd},
+			success:function (mess){
+				alert(mess)
+				$("#pwd").val("");
+				$("#npwd").val("");
+			}
+		});
+		
+	})
+	$("#npwd").keyup(function (){
+			if($("#npwd").val().length>0){
+				$("#b1").attr("disabled",false);
+			}
+			if($("#npwd").val().length==0){
+				$("#b1").attr("disabled",true);
+			}
+	})
+</script>
+</html>

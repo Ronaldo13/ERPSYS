@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hqyj.mapper.xsh.ErpsysOrderMapper">
+	<resultMap id="BaseResultMap" type="com.hqyj.model.xsh.ErpsysOrder">
+		<id column="order_id" jdbcType="INTEGER" property="orderId" />
+		<result column="seller" jdbcType="VARCHAR" property="seller" />
+		<result column="buyer" jdbcType="VARCHAR" property="buyer" />
+		<result column="order_time" jdbcType="TIMESTAMP" property="orderTime" />
+		<result column="order_locahost" jdbcType="VARCHAR" property="orderLocahost" />
+		<result column="order_type" jdbcType="INTEGER" property="orderType" />
+		<result column="product_unit_price" jdbcType="DOUBLE" property="productUnitPrice" />
+		<result column="production_total_price" jdbcType="DOUBLE"
+			property="productionTotalPrice" />
+		<result column="production_name" jdbcType="VARCHAR" property="productionName" />
+		<result column="production_number" jdbcType="INTEGER" property="productionNumber" />
+		<result column="production_type" jdbcType="VARCHAR" property="productionType" />
+		<result column="production_warehouse_id" jdbcType="INTEGER"
+			property="productionWarehouseId" />
+		<result column="order_audit_status" jdbcType="VARCHAR"
+			property="orderAuditStatus" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		order_id, seller, buyer, order_time, order_locahost, order_type,
+		product_unit_price,
+		production_total_price, production_name, production_number, production_type,
+		production_warehouse_id,
+		order_audit_status
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from erpsys_order
+
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from erpsys_order
+		where order_id = #{orderId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.hqyj.model.xsh.ErpsysOrder"
+		useGeneratedKeys="true" keyProperty="orderId">
+		insert into erpsys_order (order_id, seller, buyer,
+		order_time, order_locahost, order_type,
+		product_unit_price, production_total_price, production_name,
+		production_number, production_type, production_warehouse_id,
+		order_audit_status)
+		values (#{orderId,jdbcType=INTEGER}, #{seller,jdbcType=VARCHAR},
+		#{buyer,jdbcType=VARCHAR},
+		#{orderTime,jdbcType=TIMESTAMP}, #{orderLocahost,jdbcType=VARCHAR}, #{orderType,jdbcType=INTEGER},
+		#{productUnitPrice,jdbcType=DOUBLE},
+		#{productionTotalPrice,jdbcType=DOUBLE},
+		#{productionName,jdbcType=VARCHAR},
+		#{productionNumber,jdbcType=INTEGER},
+		#{productionType,jdbcType=VARCHAR},
+		#{productionWarehouseId,jdbcType=INTEGER},
+		#{orderAuditStatus,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.hqyj.model.xsh.ErpsysOrder">
+		insert into erpsys_order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderId != null">
+				order_id,
+			</if>
+			<if test="seller != null">
+				seller,
+			</if>
+			<if test="buyer != null">
+				buyer,
+			</if>
+			<if test="orderTime != null">
+				order_time,
+			</if>
+			<if test="orderLocahost != null">
+				order_locahost,
+			</if>
+			<if test="orderType != null">
+				order_type,
+			</if>
+			<if test="productUnitPrice != null">
+				product_unit_price,
+			</if>
+			<if test="productionTotalPrice != null">
+				production_total_price,
+			</if>
+			<if test="productionName != null">
+				production_name,
+			</if>
+			<if test="productionNumber != null">
+				production_number,
+			</if>
+			<if test="productionType != null">
+				production_type,
+			</if>
+			<if test="productionWarehouseId != null">
+				production_warehouse_id,
+			</if>
+			<if test="orderAuditStatus != null">
+				order_audit_status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="orderId != null">
+				#{orderId,jdbcType=INTEGER},
+			</if>
+			<if test="seller != null">
+				#{seller,jdbcType=VARCHAR},
+			</if>
+			<if test="buyer != null">
+				#{buyer,jdbcType=VARCHAR},
+			</if>
+			<if test="orderTime != null">
+				#{orderTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="orderLocahost != null">
+				#{orderLocahost,jdbcType=VARCHAR},
+			</if>
+			<if test="orderType != null">
+				#{orderType,jdbcType=INTEGER},
+			</if>
+			<if test="productUnitPrice != null">
+				#{productUnitPrice,jdbcType=DOUBLE},
+			</if>
+			<if test="productionTotalPrice != null">
+				#{productionTotalPrice,jdbcType=DOUBLE},
+			</if>
+			<if test="productionName != null">
+				#{productionName,jdbcType=VARCHAR},
+			</if>
+			<if test="productionNumber != null">
+				#{productionNumber,jdbcType=INTEGER},
+			</if>
+			<if test="productionType != null">
+				#{productionType,jdbcType=VARCHAR},
+			</if>
+			<if test="productionWarehouseId != null">
+				#{productionWarehouseId,jdbcType=INTEGER},
+			</if>
+			<if test="orderAuditStatus != null">
+				#{orderAuditStatus,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.hqyj.model.xsh.ErpsysOrder">
+		update erpsys_order
+		<set>
+			<if test="seller != null">
+				seller = #{seller,jdbcType=VARCHAR},
+			</if>
+			<if test="buyer != null">
+				buyer = #{buyer,jdbcType=VARCHAR},
+			</if>
+			<if test="orderTime != null">
+				order_time = #{orderTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="orderLocahost != null">
+				order_locahost = #{orderLocahost,jdbcType=VARCHAR},
+			</if>
+			<if test="orderType != null">
+				order_type = #{orderType,jdbcType=INTEGER},
+			</if>
+			<if test="productUnitPrice != null">
+				product_unit_price = #{productUnitPrice,jdbcType=DOUBLE},
+			</if>
+			<if test="productionTotalPrice != null">
+				production_total_price = #{productionTotalPrice,jdbcType=DOUBLE},
+			</if>
+			<if test="productionName != null">
+				production_name = #{productionName,jdbcType=VARCHAR},
+			</if>
+			<if test="productionNumber != null">
+				production_number = #{productionNumber,jdbcType=INTEGER},
+			</if>
+			<if test="productionType != null">
+				production_type = #{productionType,jdbcType=VARCHAR},
+			</if>
+			<if test="productionWarehouseId != null">
+				production_warehouse_id = #{productionWarehouseId,jdbcType=INTEGER},
+			</if>
+			<if test="orderAuditStatus != null">
+				order_audit_status = #{orderAuditStatus,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where order_id = #{orderId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.hqyj.model.xsh.ErpsysOrder">
+		update erpsys_order
+		set seller = #{seller,jdbcType=VARCHAR},
+		buyer = #{buyer,jdbcType=VARCHAR},
+		order_time = #{orderTime,jdbcType=TIMESTAMP},
+		order_locahost = #{orderLocahost,jdbcType=VARCHAR},
+		order_type = #{orderType,jdbcType=INTEGER},
+		product_unit_price = #{productUnitPrice,jdbcType=DOUBLE},
+		production_total_price = #{productionTotalPrice,jdbcType=DOUBLE},
+		production_name = #{productionName,jdbcType=VARCHAR},
+		production_number = #{productionNumber,jdbcType=INTEGER},
+		production_type = #{productionType,jdbcType=VARCHAR},
+		production_warehouse_id = #{productionWarehouseId,jdbcType=INTEGER},
+		order_audit_status = #{orderAuditStatus,jdbcType=VARCHAR}
+		where order_id = #{orderId,jdbcType=INTEGER}
+	</update>
+
+
+	<select id="queryAllOrder" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from erpsys_order
+	</select>
+
+	<delete id="deleteOrderByOrderId">
+		delete from erpsys_order where order_id=#{orderId,jdbcType=INTEGER}
+	</delete>
+
+
+
+	<select id="queryOrderByOrderId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from erpsys_order where order_id = #{orderId,jdbcType=INTEGER}
+	</select>
+
+	<select id="queryAllBuyOrderByOrderType" resultMap="BaseResultMap">
+		select
+		seller,
+		order_time,
+		production_number,
+		order_id
+		from erpsys_order where order_type = #{orderType,jdbcType=INTEGER}
+	</select>
+	<update id="updateProductionWarehouseIdByOrderid" parameterType="java.util.Map">
+		update erpsys_order
+		set
+		production_warehouse_id = #{productionWarehouseId,jdbcType=INTEGER}
+		where order_id = #{id,jdbcType=INTEGER}
+	</update>
+
+</mapper>

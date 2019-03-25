@@ -1,0 +1,107 @@
+package com.hqyj.service.im.lbl;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.google.gson.Gson;
+import com.hqyj.mapper.lbl.ErpsysOutProductionLogMapper;
+import com.hqyj.model.lbl.ErpsysOutProductionLog;
+import com.hqyj.service.lbl.ProductOutLogService;
+
+@Service
+public class ProductOutLogServiceImpl implements ProductOutLogService{
+
+	private static final int pagesize=2;
+	@Autowired
+	private ErpsysOutProductionLogMapper eoplm;
+	@Autowired
+	private Gson g;
+	
+	/**
+	 * .增加
+	 */
+	@Override
+	public int insert(HttpServletRequest request) {
+		Date date1 = new Date();
+		Date date2 = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			date1=sdf.parse(request.getParameter("production_out_time")+"00:00:00");
+			date2=sdf.parse(request.getParameter("in_warehouse_time")+"00:00:00");
+			sdf.format(date1);
+			sdf.format(date2);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		ErpsysOutProductionLog eopl= new ErpsysOutProductionLog();
+		eopl.setProductionOutLogId(Integer.parseInt(request.getParameter("production_out_log_id")));
+		eopl.setInWarehouseTime(date1);
+		eopl.setProductionOutTime(date2);
+		eopl.setInWarehouseStatus(request.getParameter("in_warehouse_status"));
+		eopl.setInWarehouseLogId(Integer.parseInt(request.getParameter("in_warehouse_log_id")));
+		return eoplm.insert(eopl);
+	}
+	
+	
+	/**
+	 * .查询以及分页
+	 */
+	@Override
+	public String selectProductOutLogTableByJson(HttpServletRequest request) {
+		String n=request.getParameter("currentPage");
+		String sk=request.getParameter("sreachKey");
+		if(sk==null) {
+			sk="";
+		}
+		int start=0;
+		if(n==null) {
+			
+		}else {
+			int intN=Integer.parseInt(n);
+			start=(intN-1)*pagesize;
+		}
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("start", start);
+		map.put("size", pagesize);
+		map.put("sreachName", "%"+sk+"%");
+		return g.toJson(eoplm.selectProductOutLogDateByPage(map));
+	}
+
+	@Override
+	public String getPageInfo(HttpServletRequest request) {
+		String sk= request.getParameter("sreachName");
+		if(sk==null) {
+			sk="";
+		}
+		int totalRecords=eoplm.selectCount("%"+sk+"%");
+		int total=totalRecords/pagesize;
+		if(totalRecords%pagesize>0) {
+			total++;
+		}
+		Map<String , String> map = new HashMap<String, String>();
+		map.put("totalRecords", totalRecords+"");
+		map.put("total", total+"");
+		return g.toJson(map);
+	}
+
+	/**
+	 * .删除
+	 */
+	@Override
+	public int deleteByPrimaryKey(HttpServletRequest request) {
+		Integer poli = Integer.parseInt(request.getParameter("productionOutLogId"));
+		return eoplm.deleteByPrimaryKey(poli);
+	}
+
+}

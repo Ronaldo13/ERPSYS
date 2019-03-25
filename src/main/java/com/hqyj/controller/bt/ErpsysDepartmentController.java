@@ -1,0 +1,64 @@
+package com.hqyj.controller.bt;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+
+import com.hqyj.model.bt.ErpsysDepartment;
+import com.hqyj.service.bt.ErpsysDepartmentService;
+@Controller
+@RequestMapping("/ErpsysDepartment")
+public class ErpsysDepartmentController {
+	@Autowired
+	private ErpsysDepartmentService erpsysDepartmentService;
+	@RequestMapping("/main2") // 处理main2请求
+	public String main2(HttpServletRequest request) {
+
+		request = erpsysDepartmentService.main2(request);
+
+		return "bt/main2";
+	}
+
+	@RequestMapping("/addED") // 处理add请求
+	public String addEA(HttpServletRequest request) {
+
+		return "bt/addED";
+
+	}
+
+	@RequestMapping("/addEDK")
+	public String insert(HttpServletRequest request,ErpsysDepartment departmentId) {
+		request = erpsysDepartmentService.insert(request, departmentId);
+		// System.out.println(accountId.toString());
+		return "redirect:main2";
+	}
+
+	@RequestMapping("/modifyED") // 处理modify请求
+	public String modifyEA(HttpServletRequest request) {
+		request = erpsysDepartmentService.initmodifyEDPage(request);
+		return "bt/modifyED";
+	}
+
+	@RequestMapping("/modifyEDK") // 处理modify请求
+	public String update(HttpServletRequest request, ErpsysDepartment departmentId) {
+		
+		request = erpsysDepartmentService.update(request,departmentId);
+
+		return "redirect:main2";
+
+	}
+
+	@RequestMapping("/deleteEDK")
+	public String deleteByID(HttpServletRequest request) {
+		request = erpsysDepartmentService.deleteById(request);
+		return "redirect:main2";
+	}
+	
+	
+
+	}
+
+

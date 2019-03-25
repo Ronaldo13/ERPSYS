@@ -1,0 +1,9 @@
+package com.hqyj.service.lbl;
+
+import javax.servlet.http.HttpServletRequest;
+
+
+public interface ProductingService {
+
+	int insert(HttpServletRequest request);
+}

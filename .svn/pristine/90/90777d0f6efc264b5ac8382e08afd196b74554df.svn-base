@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hqyj.mapper.bt.ErpsysBasicInformationMapper">
+  <resultMap id="BaseResultMap" type="com.hqyj.model.bt.ErpsysBasicInformation">
+    <id column="account_id" jdbcType="VARCHAR" property="accountId" />
+    <result column="account_pwd" jdbcType="VARCHAR" property="accountPwd" />
+    <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+    <result column="account_sex" jdbcType="VARCHAR" property="accountSex" />
+    <result column="account_photo" jdbcType="VARCHAR" property="accountPhoto" />
+    <result column="account_job_id" jdbcType="INTEGER" property="accountJobId" />
+    <result column="account_entry_time" jdbcType="TIMESTAMP" property="accountEntryTime" />
+    <result column="account_edu_level" jdbcType="VARCHAR" property="accountEduLevel" />
+    <result column="account_phone" jdbcType="VARCHAR" property="accountPhone" />
+    <result column="account_idcard" jdbcType="VARCHAR" property="accountIdcard" />
+    <result column="account_address" jdbcType="VARCHAR" property="accountAddress" />
+    <result column="account_email" jdbcType="VARCHAR" property="accountEmail" />
+    <result column="account_status" jdbcType="VARCHAR" property="accountStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    account_id, account_pwd, account_name, account_sex, account_photo, account_job_id, 
+    account_entry_time, account_edu_level, account_phone, account_idcard, account_address, 
+    account_email, account_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from erpsys_basic_information
+    where account_id = #{accountId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from erpsys_basic_information
+    where account_id = #{accountId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hqyj.model.bt.ErpsysBasicInformation">
+    insert into erpsys_basic_information (account_id, account_pwd, account_name, 
+      account_sex, account_photo, account_job_id, 
+      account_entry_time, account_edu_level, account_phone, 
+      account_idcard, account_address, account_email, 
+      account_status)
+    values (#{accountId,jdbcType=VARCHAR}, #{accountPwd,jdbcType=VARCHAR}, #{accountName,jdbcType=VARCHAR}, 
+      #{accountSex,jdbcType=VARCHAR}, #{accountPhoto,jdbcType=VARCHAR}, #{accountJobId,jdbcType=INTEGER}, 
+      #{accountEntryTime,jdbcType=TIMESTAMP}, #{accountEduLevel,jdbcType=VARCHAR}, #{accountPhone,jdbcType=VARCHAR}, 
+      #{accountIdcard,jdbcType=VARCHAR}, #{accountAddress,jdbcType=VARCHAR}, #{accountEmail,jdbcType=VARCHAR}, 
+      #{accountStatus,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hqyj.model.bt.ErpsysBasicInformation">
+    insert into erpsys_basic_information
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="accountPwd != null">
+        account_pwd,
+      </if>
+      <if test="accountName != null">
+        account_name,
+      </if>
+      <if test="accountSex != null">
+        account_sex,
+      </if>
+      <if test="accountPhoto != null">
+        account_photo,
+      </if>
+      <if test="accountJobId != null">
+        account_job_id,
+      </if>
+      <if test="accountEntryTime != null">
+        account_entry_time,
+      </if>
+      <if test="accountEduLevel != null">
+        account_edu_level,
+      </if>
+      <if test="accountPhone != null">
+        account_phone,
+      </if>
+      <if test="accountIdcard != null">
+        account_idcard,
+      </if>
+      <if test="accountAddress != null">
+        account_address,
+      </if>
+      <if test="accountEmail != null">
+        account_email,
+      </if>
+      <if test="accountStatus != null">
+        account_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="accountId != null">
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="accountPwd != null">
+        #{accountPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null">
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountSex != null">
+        #{accountSex,jdbcType=VARCHAR},
+      </if>
+      <if test="accountPhoto != null">
+        #{accountPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="accountJobId != null">
+        #{accountJobId,jdbcType=INTEGER},
+      </if>
+      <if test="accountEntryTime != null">
+        #{accountEntryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountEduLevel != null">
+        #{accountEduLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="accountPhone != null">
+        #{accountPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="accountIdcard != null">
+        #{accountIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="accountAddress != null">
+        #{accountAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="accountEmail != null">
+        #{accountEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="accountStatus != null">
+        #{accountStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hqyj.model.bt.ErpsysBasicInformation">
+    update erpsys_basic_information
+    <set>
+      <if test="accountPwd != null">
+        account_pwd = #{accountPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null">
+        account_name = #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountSex != null">
+        account_sex = #{accountSex,jdbcType=VARCHAR},
+      </if>
+      <if test="accountPhoto != null">
+        account_photo = #{accountPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="accountJobId != null">
+        account_job_id = #{accountJobId,jdbcType=INTEGER},
+      </if>
+      <if test="accountEntryTime != null">
+        account_entry_time = #{accountEntryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountEduLevel != null">
+        account_edu_level = #{accountEduLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="accountPhone != null">
+        account_phone = #{accountPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="accountIdcard != null">
+        account_idcard = #{accountIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="accountAddress != null">
+        account_address = #{accountAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="accountEmail != null">
+        account_email = #{accountEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="accountStatus != null">
+        account_status = #{accountStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where account_id = #{accountId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hqyj.model.bt.ErpsysBasicInformation">
+    update erpsys_basic_information
+    set account_pwd = #{accountPwd,jdbcType=VARCHAR},
+      account_name = #{accountName,jdbcType=VARCHAR},
+      account_sex = #{accountSex,jdbcType=VARCHAR},
+      account_photo = #{accountPhoto,jdbcType=VARCHAR},
+      account_job_id = #{accountJobId,jdbcType=INTEGER},
+      account_entry_time = #{accountEntryTime,jdbcType=TIMESTAMP},
+      account_edu_level = #{accountEduLevel,jdbcType=VARCHAR},
+      account_phone = #{accountPhone,jdbcType=VARCHAR},
+      account_idcard = #{accountIdcard,jdbcType=VARCHAR},
+      account_address = #{accountAddress,jdbcType=VARCHAR},
+      account_email = #{accountEmail,jdbcType=VARCHAR},
+      account_status = #{accountStatus,jdbcType=VARCHAR}
+    where account_id = #{accountId,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- ########################################### -->
+  
+  <select id="getAllLimit" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from erpsys_basic_information limit #{pageNoLimit},#{pageSize}
+  </select>
+  
+  <select id="getAll"  resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from erpsys_basic_information
+  </select>
+  
+  <select id="getAllCounts" resultType="java.lang.Integer">
+  	select count(*) from erpsys_basic_information
+  </select>
+  
+  <!--zx  -->
+  	<select id="selectByIdAndPWD" resultMap="BaseResultMap">
+  		SELECT * FROM erpsys_basic_information WHERE account_id=#{username} AND account_pwd =#{password}
+  	</select>
+  	<update id="updatePWDByUsername">
+  		UPDATE erpsys_basic_information SET account_pwd = #{npwd} WHERE account_id=#{username}
+  	</update>
+  	<select id="selectALLUser" resultType="java.lang.String">
+  		SELECT account_id FROM erpsys_basic_information
+  	</select>
+  	<select id="selectCount" resultType="java.lang.Integer">
+  		SELECT COUNT(*) FROM erpsys_basic_information where account_id LIKE #{serch}
+  	</select>
+  	<select id="selectByNumAndPagesiz" resultType="java.lang.String">
+  		SELECT account_id FROM erpsys_basic_information  where account_id LIKE #{serch}   LIMIT #{num},#{pagesize}
+  	</select>
+  	<update id="updateFileByUsername">
+  		UPDATE erpsys_basic_information SET account_photo = #{url} WHERE account_id=#{username}
+  	</update>
+  <!-- end zx -->
+</mapper>

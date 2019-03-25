@@ -1,0 +1,49 @@
+package com.hqyj.model.lbl;
+
+import java.util.Date;
+
+public class ProductModel {
+  private String productBatch;
+  private int productNumber;
+  private int prodcutWareId;
+  private int productOutLogId;
+  private Date productOutTime;
+  private Date inWareTime;
+public String getProductBatch() {
+	return productBatch;
+}
+public void setProductBatch(String productBatch) {
+	this.productBatch = productBatch;
+}
+public int getProductNumber() {
+	return productNumber;
+}
+public void setProductNumber(int productNumber) {
+	this.productNumber = productNumber;
+}
+public int getProdcutWareId() {
+	return prodcutWareId;
+}
+public void setProdcutWareId(int prodcutWareId) {
+	this.prodcutWareId = prodcutWareId;
+}
+public int getProductOutLogId() {
+	return productOutLogId;
+}
+public void setProductOutLogId(int productOutLogId) {
+	this.productOutLogId = productOutLogId;
+}
+public Date getProductOutTime() {
+	return productOutTime;
+}
+public void setProductOutTime(Date productOutTime) {
+	this.productOutTime = productOutTime;
+}
+public Date getInWareTime() {
+	return inWareTime;
+}
+public void setInWareTime(Date inWareTime) {
+	this.inWareTime = inWareTime;
+}
+  
+}

@@ -1,0 +1,17 @@
+package com.hqyj.mapper.bt;
+
+import com.hqyj.model.bt.ErpsysDepartment;
+
+public interface ErpsysDepartmentMapper {
+    int deleteByPrimaryKey(Integer departmentId);
+
+    int insert(ErpsysDepartment record);
+
+    int insertSelective(ErpsysDepartment record);
+
+    ErpsysDepartment selectByPrimaryKey(Integer departmentId);
+
+    int updateByPrimaryKeySelective(ErpsysDepartment record);
+
+    int updateByPrimaryKey(ErpsysDepartment record);
+}

@@ -1,0 +1,174 @@
+package com.hqyj.model.bt;
+
+import java.util.Date;
+
+
+
+/**
+ * @author bt
+ * 
+ * 最后更新:2019年2月20日上午9:28:43
+ */
+public class ErpsysBasicInformation {
+    private String accountId;//员工编号 
+
+    private String accountPwd;//员工密码
+   
+    private String password;//加密密码
+
+    private String accountName;//员工名字
+
+    private String accountSex;//员工性别
+
+    private String accountPhoto;//员工照片
+
+    private Integer accountJobId;//职位编号
+
+    private Date accountEntryTime;//入职时间 
+    
+    private String accountEntryTimeString;//入职时间 String格式
+
+    private String accountEduLevel;//学历 
+    
+    private String accountPhone;//电话号码
+
+    private String accountIdcard;//身份证号码
+
+    private String accountAddress ;//家庭住址
+    
+    private String accountEmail;//电子邮箱 
+
+    private String accountStatus;//帐号状态
+    
+    public String getPassword() {
+  		return password;
+  	}
+
+  	public void setPassword(String password) {
+  		this.password = password;
+  	}
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getAccountPwd() {
+        return accountPwd;
+    }
+
+    public void setAccountPwd(String accountPwd) {
+        this.accountPwd = accountPwd;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public String getAccountSex() {
+        return accountSex;
+    }
+
+    public void setAccountSex(String accountSex) {
+        this.accountSex = accountSex;
+    }
+
+    public String getAccountPhoto() {
+        return accountPhoto;
+    }
+
+    public void setAccountPhoto(String accountPhoto) {
+        this.accountPhoto = accountPhoto;
+    }
+
+    public Integer getAccountJobId() {
+        return accountJobId;
+    }
+
+    public void setAccountJobId(Integer accountJobId) {
+        this.accountJobId = accountJobId;
+    }
+
+    public Date getAccountEntryTime() {
+        return accountEntryTime;
+    }
+
+    public void setAccountEntryTime(Date accountEntryTime) {
+        this.accountEntryTime = accountEntryTime;
+    }
+
+    public String getAccountEduLevel() {
+        return accountEduLevel;
+    }
+
+    public void setAccountEduLevel(String accountEduLevel) {
+        this.accountEduLevel = accountEduLevel;
+    }
+
+    public String getAccountPhone() {
+        return accountPhone;
+    }
+
+    public void setAccountPhone(String accountPhone) {
+        this.accountPhone = accountPhone;
+    }
+
+    public String getAccountIdcard() {
+        return accountIdcard;
+    }
+
+    public void setAccountIdcard(String accountIdcard) {
+        this.accountIdcard = accountIdcard;
+    }
+
+    public String getAccountAddress() {
+        return accountAddress;
+    }
+
+    public void setAccountAddress(String accountAddress) {
+        this.accountAddress = accountAddress;
+    }
+
+    public String getAccountEmail() {
+        return accountEmail;
+    }
+
+    public void setAccountEmail(String accountEmail) {
+        this.accountEmail = accountEmail;
+    }
+
+    public String getAccountStatus() {
+        return accountStatus;
+    }
+
+    public void setAccountStatus(String accountStatus) {
+        this.accountStatus = accountStatus;
+    }
+
+	public String getAccountEntryTimeString() {
+		return accountEntryTimeString;
+	}
+
+	public void setAccountEntryTimeString(String accountEntryTimeString) {
+		this.accountEntryTimeString = accountEntryTimeString;
+	}
+
+	@Override
+	public String toString() {
+		return "ErpsysBasicInformation [accountId=" + accountId + ", accountPwd=" + accountPwd + ", accountName="
+				+ accountName + ", accountSex=" + accountSex + ", accountPhoto=" + accountPhoto + ", accountJobId="
+				+ accountJobId + ", accountEntryTime=" + accountEntryTime + ", accountEntryTimeString="
+				+ accountEntryTimeString + ", accountEduLevel=" + accountEduLevel + ", accountPhone=" + accountPhone
+				+ ", accountIdcard=" + accountIdcard + ", accountAddress=" + accountAddress + ", accountEmail="
+				+ accountEmail + ", accountStatus=" + accountStatus + "]";
+	}
+    
+    
+}

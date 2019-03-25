@@ -1,0 +1,135 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<!-- JSP页面用EL表达式 输出date格式  -->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+	href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script
+	src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<title>Insert title here</title>
+</head>
+<body>
+	<div align="center">
+		<div>
+			<h1>修改页面</h1>
+			<hr>
+		</div>
+		<form action="updateOrderByOrderId" method="post" id="formx">
+			<table class="table table-bordered">
+				<input type="hidden"
+					value="<fmt:formatDate value='${ErpsysOrder.orderTime}' pattern='yyyy-MM-dd'/>"
+					id="hid">
+				<tr align="center">
+					<td>订单编号：</td>
+					<td><input type="text" name="orderId" id="orderId"
+						placeholder="信息不能为空" value="${ErpsysOrder.orderId}"></td>
+				</tr>
+				<tbody align="center">
+					<tr>
+						<td>销售方：</td>
+						<td><input type="text" name="seller" id="seller"
+							placeholder="信息不能为空" value="${ErpsysOrder.seller}"></td>
+					</tr>
+					<tr>
+						<td>购买方：</td>
+						<td><input type="text" name="buyer" id="buyer"
+							placeholder="信息不能为空" value="${ErpsysOrder.buyer}"></td>
+					</tr>
+					<div class="input-group">
+						<tr>
+							<td>订单时间：</td>
+							<td><input type="date" name="orderTime" id="orderTime"
+								placeholder="信息不能为空" style="width: 200px"></td>
+						</tr>
+					</div>
+					<tr>
+						<td>订单地点：</td>
+						<td><input type="text" name="orderLocahost"
+							id="orderLocahost" placeholder="信息不能为空"
+							value="${ErpsysOrder.orderLocahost}"></td>
+					</tr>
+
+
+					<tr>
+						<td>订单类型：</td>
+						<td><select id="orderType" name="orderType"
+							class="form-control" style="width: 200px">
+								<option value="0">销售订单</option>
+								<option value="1">采购订单</option>
+						</select></td>
+
+					</tr>
+					<tr>
+						<td>商品单价：</td>
+						<td><input type="text" name="productUnitPrice"
+							id="productUnitPrice" placeholder="信息不能为空"
+							value="${ErpsysOrder.productUnitPrice}"></td>
+					</tr>
+					<tr>
+						<td>商品总价：</td>
+						<td><input type="text" name="productionTotalPrice"
+							id="productionTotalPrice" placeholder="信息不能为空"
+							value="${ErpsysOrder.productionTotalPrice}"></td>
+					</tr>
+					<tr>
+						<td>商品名称：</td>
+						<td><input type="text" name="productionName"
+							id="productionName" placeholder="信息不能为空"
+							value="${ErpsysOrder.productionName}"></td>
+					</tr>
+					<tr>
+						<td>商品数量：</td>
+						<td><input type="text" name="productionNumber"
+							id="productionNumber" placeholder="信息不能为空"
+							value="${ErpsysOrder.productionNumber}"></td>
+					</tr>
+					<tr>
+						<td>规格型号：</td>
+						<td><input type="text" name="productionType"
+							id="productionType" placeholder="信息不能为空"
+							value="${ErpsysOrder.productionType}"></td>
+					</tr>
+					<tr>
+						<td>产品库存编号：</td>
+						<td><input type="text" name="productionWarehouseId"
+							id="productionWarehouseId" placeholder="信息不能为空"
+							value="${ErpsysOrder.productionWarehouseId}"></td>
+					</tr>
+					
+					
+					<tr>
+						<td>订单审核状态：</td>
+						<td><select id="orderAuditStatus" name="orderAuditStatus"
+							class="form-control" style="width: 200px">
+								<option value="0">已审核</option>
+								<option value="1">未审核</option>
+						</select></td>
+
+					</tr>
+				</tbody>
+
+			</table>
+			<button onclick="myCheck" type="submit" value="提交"
+				class="btn btn-default">提交</button>
+			<a href="queryAlltOrder" class="btn btn-default">退出</a>
+		</form>
+	</div>
+</body>
+<script type="text/javascript">
+	$("#orderTime").val($("#hid").val())
+
+	var value = $("input").val();
+	if (value == "" || value.replace(/\s*/g, "") == "") {
+		$("input").attr("disabled", "disabled")
+	} else {
+		$("input").removeAttr("disabled")
+	}
+</script>
+</html>
+

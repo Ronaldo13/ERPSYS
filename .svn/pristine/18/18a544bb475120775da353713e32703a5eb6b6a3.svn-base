@@ -1,0 +1,27 @@
+package com.hqyj.service.im.lbl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.hqyj.mapper.lbl.ProductMapper;
+import com.hqyj.model.lbl.ProductModel;
+import com.hqyj.service.lbl.ProductService;
+
+@Service
+public class ProductServiceImpl implements ProductService {
+
+	
+	@Autowired
+	private ProductMapper pm;
+
+	@Override
+	public List<ProductModel> selectProductDate() {
+		return pm.selectProductDate();
+	}
+	
+
+	
+
+}

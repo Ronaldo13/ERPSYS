@@ -1,0 +1,33 @@
+package com.hqyj.model.lbl;
+
+public class ErpsysProductResult {
+    private String productBatch;
+
+    private Integer productionWarehouseId;
+
+    private Integer productionOutLogId;
+
+    public String getProductBatch() {
+        return productBatch;
+    }
+
+    public void setProductBatch(String productBatch) {
+        this.productBatch = productBatch;
+    }
+
+    public Integer getProductionWarehouseId() {
+        return productionWarehouseId;
+    }
+
+    public void setProductionWarehouseId(Integer productionWarehouseId) {
+        this.productionWarehouseId = productionWarehouseId;
+    }
+
+    public Integer getProductionOutLogId() {
+        return productionOutLogId;
+    }
+
+    public void setProductionOutLogId(Integer productionOutLogId) {
+        this.productionOutLogId = productionOutLogId;
+    }
+}

@@ -1,0 +1,80 @@
+package com.hqyj.service.im.xsh;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Service;
+
+import com.hqyj.mapper.xsh.ErpsysOrderMapper;
+import com.hqyj.model.xsh.ErpsysOrder;
+import com.hqyj.service.xsh.BuyOrderMannagementService;
+
+@Service
+public class BuyOrderMannagementServiceIm implements BuyOrderMannagementService{
+
+	@Resource
+	private ErpsysOrderMapper ErpsysOrderMapper ;
+		
+	
+	@Override
+	public int addOrder(HttpServletRequest request) {
+		
+//		将从界面接受的String类型数据转换为data类型
+		Date date=new Date();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			date= sdf.parse(request.getParameter("orderTime")+" 00:00:00");
+			sdf.format(date);
+			System.out.println(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+//	将界面的数据放入model层中	
+		ErpsysOrder eo=new ErpsysOrder();
+		
+		eo.setSeller(request.getParameter("seller"));
+		eo.setBuyer(request.getParameter("buyer"));
+		eo.setOrderLocahost(request.getParameter("orderLocahost"));
+		eo.setOrderType(Integer.parseInt(request.getParameter("orderType")));
+		eo.setProductUnitPrice(Double.parseDouble(request.getParameter("productUnitPrice")));
+		eo.setProductionTotalPrice(Double.parseDouble(request.getParameter("productionTotalPrice")));
+		eo.setProductionName(request.getParameter("productionName"));
+		eo.setProductionNumber(Integer.parseInt(request.getParameter("productionNumber")));
+		eo.setProductionType(request.getParameter("productionType"));
+		eo.setProductionWarehouseId(Integer.parseInt(request.getParameter("productionWarehouseId")));
+		eo.setOrderAuditStatus(request.getParameter("orderAuditStatus"));
+		eo.setOrderTime(date);
+		
+		return ErpsysOrderMapper.insert(eo);
+		
+		
+	}
+
+
+	@Override
+	public int deleteOrderByOrderId(HttpServletRequest request) {
+		
+		int orderId=Integer.parseInt(request.getParameter("orderId"));
+		return ErpsysOrderMapper.deleteOrderByOrderId(orderId);
+	}
+
+
+	@Override
+	public List<ErpsysOrder> queryAllOrder() {
+		ErpsysOrder eOrder=new ErpsysOrder();
+		List<ErpsysOrder> a=ErpsysOrderMapper.queryAllOrder();
+		
+		
+		
+		return null ;
+	}
+	
+	
+
+}

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hqyj.mapper.hth.ErpsysAccountsReceivableMapper">
+  <resultMap id="BaseResultMap" type="com.hqyj.model.hth.ErpsysAccountsReceivable">
+    <id column="accounts_receivable_id" jdbcType="INTEGER" property="accountsReceivableId" />
+    <result column="accounts_receivable_name" jdbcType="VARCHAR" property="accountsReceivableName" />
+    <result column="accounts_receivable_money" jdbcType="DOUBLE" property="accountsReceivableMoney" />
+    <result column="accounts_payer" jdbcType="VARCHAR" property="accountsPayer" />
+    <result column="accounts_record_time" jdbcType="TIMESTAMP" property="accountsRecordTime" />
+    <result column="already_received" jdbcType="INTEGER" property="alreadyReceived" />
+    <result column="payment_time" jdbcType="TIMESTAMP" property="paymentTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    accounts_receivable_id, accounts_receivable_name, accounts_receivable_money, accounts_payer, 
+    accounts_record_time, already_received, payment_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from erpsys_accounts_receivable
+    where accounts_receivable_id = #{accountsReceivableId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from erpsys_accounts_receivable
+    where accounts_receivable_id = #{accountsReceivableId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hqyj.model.hth.ErpsysAccountsReceivable" useGeneratedKeys="true" keyProperty="accountsReceivableId">
+    insert into erpsys_accounts_receivable (accounts_receivable_id, accounts_receivable_name, 
+      accounts_receivable_money, accounts_payer, 
+      accounts_record_time, already_received, 
+      payment_time)
+    values (#{accountsReceivableId,jdbcType=INTEGER}, #{accountsReceivableName,jdbcType=VARCHAR}, 
+      #{accountsReceivableMoney,jdbcType=DOUBLE}, #{accountsPayer,jdbcType=VARCHAR}, 
+      #{accountsRecordTimeString,jdbcType=TIMESTAMP}, #{alreadyReceived,jdbcType=INTEGER}, 
+      #{paymentTimeString,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hqyj.model.hth.ErpsysAccountsReceivable" useGeneratedKeys="true" keyProperty="accountsReceivableId">
+    insert into erpsys_accounts_receivable
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="accountsReceivableId != null">
+        accounts_receivable_id,
+      </if>
+      <if test="accountsReceivableName != null">
+        accounts_receivable_name,
+      </if>
+      <if test="accountsReceivableMoney != null">
+        accounts_receivable_money,
+      </if>
+      <if test="accountsPayer != null">
+        accounts_payer,
+      </if>
+      <if test="accountsRecordTimeString != null">
+        accounts_record_time,
+      </if>
+      <if test="alreadyReceived != null">
+        already_received,
+      </if>
+      <if test="paymentTimeString != null">
+        payment_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="accountsReceivableId != null">
+        #{accountsReceivableId,jdbcType=INTEGER},
+      </if>
+      <if test="accountsReceivableName != null">
+        #{accountsReceivableName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountsReceivableMoney != null">
+        #{accountsReceivableMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="accountsPayer != null">
+        #{accountsPayer,jdbcType=VARCHAR},
+      </if>
+      <if test="accountsRecordTimeString != null">
+        #{accountsRecordTimeString,jdbcType=TIMESTAMP},
+      </if>
+      <if test="alreadyReceived != null">
+        #{alreadyReceived,jdbcType=INTEGER},
+      </if>
+      <if test="paymentTimeString != null">
+        #{paymentTimeString,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hqyj.model.hth.ErpsysAccountsReceivable">
+    update erpsys_accounts_receivable
+    <set>
+      <if test="accountsReceivableName != null">
+        accounts_receivable_name = #{accountsReceivableName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountsReceivableMoney != null">
+        accounts_receivable_money = #{accountsReceivableMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="accountsPayer != null">
+        accounts_payer = #{accountsPayer,jdbcType=VARCHAR},
+      </if>
+      <if test="accountsRecordTimeString != null">
+        accounts_record_time = #{accountsRecordTimeString,jdbcType=TIMESTAMP},
+      </if>
+      <if test="alreadyReceived != null">
+        already_received = #{alreadyReceived,jdbcType=INTEGER},
+      </if>
+      <if test="paymentTimeString != null">
+        payment_time = #{paymentTimeString,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where accounts_receivable_id = #{accountsReceivableId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hqyj.model.hth.ErpsysAccountsReceivable">
+    update erpsys_accounts_receivable
+    set accounts_receivable_name = #{accountsReceivableName,jdbcType=VARCHAR},
+      accounts_receivable_money = #{accountsReceivableMoney,jdbcType=DOUBLE},
+      accounts_payer = #{accountsPayer,jdbcType=VARCHAR},
+      accounts_record_time = #{accountsRecordTimeString,jdbcType=TIMESTAMP},
+      already_received = #{alreadyReceived,jdbcType=INTEGER},
+      payment_time = #{paymentTimeString,jdbcType=TIMESTAMP}
+    where accounts_receivable_id = #{accountsReceivableId,jdbcType=INTEGER}
+  </update>
+  
+  <!-- ################################################################ -->
+
+	<select id="selectAccountsReceivableByReceiverAndEnd" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from erpsys_accounts_receivable where accounts_payer like #{searchName,jdbcType=VARCHAR}
+		and accounts_receivable_name like #{searchAccountsReceivableName,jdbcType=VARCHAR}
+		limit #{pageNo,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	</select>
+	
+	<select id="selectAccountsReceivableByReceiverAndEndCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select count(*) from erpsys_accounts_receivable where accounts_receivable_name like #{searchName,jdbcType=VARCHAR} and accounts_receivable_name like #{searchAccountsReceivableName,jdbcType=VARCHAR}
+	</select>
+</mapper>

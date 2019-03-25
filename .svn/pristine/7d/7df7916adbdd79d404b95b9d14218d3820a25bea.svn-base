@@ -1,0 +1,35 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+    <%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<!DOCTYPE html>
+<html>
+
+<head>
+<base href="<%=basePath%>" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>职位信息修改</title>
+</head>
+<body>
+ <form action="ErpsysJob/modifyEJK" method="get">
+ <table width="40%",height="60%" align="center">
+ <tr>
+ <td>职位编号</td>
+ <td><input style="width:100%" type="number" name="JobId" value="${erpsysJob.jobId}"/></td>
+ </tr>
+ <tr>
+ <td>职位名称</td>
+ <td><input style="width:100%" type="text" name="JobName" value="${erpsysJob.jobName}"/></td>
+ </tr>
+ <tr>
+ <td>所在部门</td>
+ <td><input style="width:100%" type="number" name="departmentId" value="${erpsysJob.departmentId}"/></td>
+ </tr>
+
+ <td colspan="2" align="center"><input type="submit" value="修改"/></td>
+ </tr>
+ </table>
+</form>

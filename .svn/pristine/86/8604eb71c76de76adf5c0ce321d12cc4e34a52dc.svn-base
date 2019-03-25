@@ -1,0 +1,159 @@
+package com.hqyj.service.im.xx;
+
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.hqyj.mapper.xx.InWareHouseModelMapper;
+import com.hqyj.mapper.xx.OutWareHouseModelMapper;
+import com.hqyj.mapper.xx.WareHouseModelMapper;
+import com.hqyj.model.xx.InWareHouseModel;
+import com.hqyj.model.xx.OutWareHouseModel;
+import com.hqyj.model.xx.WareHouseModel;
+import com.hqyj.service.xx.WareHouseService;
+
+@Service
+public class WareHouseServiceImpl implements WareHouseService{
+	@Autowired
+	WareHouseModelMapper whmm;
+	@Autowired
+	InWareHouseModelMapper iwhmm;
+	@Autowired
+	OutWareHouseModelMapper owhmm;
+	@Override
+	public List<WareHouseModel> SelectAllWare(int totalnumber) {
+		// TODO Auto-generated method stub
+		return whmm.SelectAllWare(totalnumber);
+	}
+
+	@Override
+	public void AddWareDo(HttpServletRequest request,WareHouseModel wareHouseModel) {
+		/*Date date=new Date();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String newtime= sdf.format(date);*/
+		int result= whmm.AddWareDo(wareHouseModel);
+		if ( result!=0) {
+			request.setAttribute("warning", "success");
+		}else {
+			request.setAttribute("warning", "fail");
+		}
+		
+		
+	}
+
+	@Override
+	public void Delete(HttpServletRequest request) {
+		String id= request.getParameter("id");
+		Integer ids=Integer.parseInt(id);
+		whmm.DeleteByProductionWarehouseId(ids);
+		
+	}
+
+	@Override
+	public void batchDelete(HttpServletRequest request) {
+			String[] checkid=	request.getParameterValues("check");
+			for (String string : checkid) {
+				Integer ckid=Integer.parseInt(string);
+				whmm.DeleteByProductionWarehouseId(ckid);
+			}
+
+	}
+
+	@Override
+	public void showwareByproductionWarehouseId(HttpServletRequest request) {
+		String productionWarehouseId= request.getParameter("productionWarehouseId");
+		Integer ids=Integer.parseInt(productionWarehouseId);
+		WareHouseModel wareHouseModel= whmm.seleByproductionWarehouseId(ids);
+		request.setAttribute("wareHouseModel", wareHouseModel);
+	}
+
+	@Override
+	public int updateWareByWareId(WareHouseModel wareHouseModel) {
+		
+		return whmm.updateWareByWareId(wareHouseModel);
+	}
+
+	@Override
+	public Integer SelectAllTotal() {
+		return whmm.SelectAllTotal();
+	}
+
+
+	@Override
+	public List<WareHouseModel> SelectAllWare() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public WareHouseModel selectByProductionWarehouseId(int productionWarehouseId) {
+		
+		return whmm.seleByproductionWarehouseId(productionWarehouseId);
+	}
+	@Override
+	public void addOutLog(OutWareHouseModel outWareHouseModel) {
+		owhmm.addOutLog(outWareHouseModel);
+		
+	}
+
+	@Override
+	public void addInwareLog(InWareHouseModel iwhm) {
+		iwhmm.addInwareLog(iwhm);
+		
+	}
+
+	@Override
+	public void selectAllInware(HttpServletRequest request) {
+		int pageNo = 1;
+		if(request.getParameter("pageNo")!=null){
+			try {
+				pageNo = Integer.parseInt(request.getParameter("pageNo"));
+				int totalnumber=(pageNo-1)*5;
+				List<InWareHouseModel> inWareHouseModels= iwhmm.selectAllInware(totalnumber);
+				request.setAttribute("inWareHouseModels", inWareHouseModels);
+				request.setAttribute("pageNo", pageNo);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}else {
+			List<InWareHouseModel> inWareHouseModels= iwhmm.selectAllInware(0);	
+			request.setAttribute("inWareHouseModels", inWareHouseModels);
+			request.setAttribute("pageNo", pageNo);
+		}
+		Integer totalInventory= iwhmm.SelectAllTotal();
+		request.setAttribute("totalInventory", totalInventory);
+	}
+
+	@Override
+	public void selectAllOutware(HttpServletRequest request) {
+		int pageNo = 1;
+		if(request.getParameter("pageNo")!=null){
+			try {
+				pageNo = Integer.parseInt(request.getParameter("pageNo"));
+				int totalnumber=(pageNo-1)*5;
+				List<OutWareHouseModel> outWareHouseModels= owhmm.selectAllOutware(totalnumber);
+				request.setAttribute("inWareHouseModels", outWareHouseModels);
+				request.setAttribute("pageNo", pageNo);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}else {
+			List<OutWareHouseModel> outWareHouseModels= owhmm.selectAllOutware(0);	
+			request.setAttribute("inWareHouseModels", outWareHouseModels);
+			request.setAttribute("pageNo", pageNo);
+		}
+		Integer totalInventory= owhmm.SelectAllTotal();
+		request.setAttribute("totalInventory", totalInventory);
+	}
+
+	@Override
+	public void AddWareFromOrder(HttpServletRequest request, WareHouseModel wareHouseModel) {
+		int result= whmm.AddWareDo(wareHouseModel);
+	}
+
+
+}

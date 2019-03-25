@@ -1,0 +1,74 @@
+package com.hqyj.controller.lbl;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.hqyj.model.lbl.ErpsysProduct;
+import com.hqyj.model.lbl.ProductModel;
+import com.hqyj.service.lbl.ProductResultService;
+import com.hqyj.service.lbl.ProductService;
+import com.hqyj.service.lbl.ProductingService;
+import com.mysql.fabric.xmlrpc.base.Data;
+
+@Controller
+@RequestMapping("/lbl")
+public class ProductController {
+
+	@Autowired
+	private ProductService ps;
+
+	@Autowired
+	private ProductingService pis;
+	
+	@Autowired
+	private ProductResultService prs;
+
+	/**
+	 * .生产主要数据
+	 * 
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("/productionTable")
+	public String productionTable(Map map) {
+		List<ProductModel> list = ps.selectProductDate();
+		map.put("list", list);
+		return "lbl/production";
+	}
+
+	@RequestMapping("/addproductingdate")
+	public String addproductingdate() {
+		return "lbl/addproducting";
+	}
+
+	@RequestMapping("/addproductingdata2")
+	public String addproductingdata2(HttpServletRequest request) {
+		pis.insert(request);
+		return null;
+	}
+	@RequestMapping("/addproductresultdate")
+	public String addproductresultdate() {
+		return "lbl/addproductresult";
+	}
+	
+	@RequestMapping("/addproductresultdate2")
+	public String addproductresultdate2(HttpServletRequest request) {
+		prs.insert(request);
+		return null;
+	}
+	
+	@RequestMapping("/addproductmaterialdate")
+	public String addproductmaterialdate() {
+		return "lbl/addproductmaterial";
+	}
+
+}

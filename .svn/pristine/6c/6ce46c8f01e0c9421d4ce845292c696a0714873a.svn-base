@@ -1,0 +1,50 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<base href="<%=basePath%>">
+<title>Insert title here</title>
+</head>
+<body>
+<div align="center">
+		<h1>修改页面</h1>
+	<hr>
+		<form action="<%=basePath%>update/updateproductoutlogdate2" method="post"
+		enctype="multipart/form-data">
+			<table>
+				<tr>
+					<td>出货日志编号:</td>
+					<td><input type="text" name="production_out_log_id" value="${erpsysOutProductionLog.productionOutLogId}"></td>
+				</tr>
+				<tr>
+					<td>出货时间：</td>
+					<td><input type="text" name="production_out_time" value="${toString1}"></td>
+				</tr>
+				<tr>
+					<td>入库状态：</td>
+					<td><input type="text" name="in_warehouse_status" value="${erpsysOutProductionLog.inWarehouseStatus }"></td>
+				</tr>
+				<tr>
+					<td>入库日志编号：</td>
+					<td><input type="text" name="in_warehouse_log_id" value="${erpsysOutProductionLog.inWarehouseLogId}"></td>
+				</tr>
+				<tr>
+					<td>入库时间：</td>
+					<td><input type="text" name="in_warehouse_time" value="${toString2}"></td>
+				</tr>
+				<tr>
+					<td><input type="submit"  value="修改"></td>
+					<td><input type="reset" value="重置"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>

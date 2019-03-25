@@ -1,0 +1,16 @@
+package com.hqyj.service.xsh;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.hqyj.model.xsh.ErpsysOrder;
+
+public interface BuyOrderMannagementService {
+
+	int addOrder(HttpServletRequest request);
+
+	int deleteOrderByOrderId(HttpServletRequest request);
+
+	List<ErpsysOrder> queryAllOrder();
+}

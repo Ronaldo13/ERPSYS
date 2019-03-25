@@ -1,0 +1,66 @@
+package com.hqyj.controller.zx;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.hqyj.service.zx.DoSer;
+
+@Controller
+@RequestMapping("/MineCon")
+public class MineCon {
+
+	@Resource
+	private DoSer doser;
+
+	@RequestMapping("/index")
+	public String indexPage() {
+		return "home/index";
+	}
+
+	@RequestMapping("/welcome")
+	public String welcomePage(HttpServletRequest request) {
+		doser.doinfo(request);
+		return "home/welcome";
+	}
+
+	@RequestMapping("/password")
+	public String passwordPage(HttpServletRequest request) {
+		return "zx/password";
+	}
+
+	@RequestMapping(value = "/dopsw", produces = "text/html; charset=UTF-8")
+	@ResponseBody
+	public String dopsw(HttpServletRequest request) {
+		if (doser.dopsw(request)) {
+			return "修改成功";
+		}
+		return "修改失败";
+	}
+
+	@RequestMapping("/userlist")
+	public String userlist(HttpServletRequest request) {
+		return "zx/userlist";
+	}
+
+	@RequestMapping("/donum")
+	@ResponseBody
+	public String doNum(HttpServletRequest request) {
+		return doser.selectCount(request);
+	}
+
+	@RequestMapping("/dolist")
+	@ResponseBody
+	public String doList(HttpServletRequest request) {
+		return doser.doList(request);
+	}
+
+	@RequestMapping("/dosearch")
+	public String search(HttpServletRequest request) {
+		request.setAttribute("search", request.getParameter("search"));
+		return "zx/userlist";
+	}
+}

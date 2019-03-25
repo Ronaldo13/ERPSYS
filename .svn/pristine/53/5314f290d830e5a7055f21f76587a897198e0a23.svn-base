@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="shiroFilter"
+		class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="filterChainDefinitions">
+			<value>
+				<!-- # some example chain definitions: /admin/** = authc, roles[admin] 
+					/docs/** = authc, perms[document:read] #anon匿名访问 #authc认证后可以访问的页面 -->
+				<!-- zx的权限 -->
+				/style/**=anon
+				/dologin=anon
+				/MineCon/**=anon
+				<!-- end  zx的权限 -->
+				<!-- xx 的权限 -->
+				/ware/**=anon
+				<!-- end  xx的权限 -->
+				
+				<!-- xsh 的权限 -->
+				/BuyOrderMannagementController/**=anon
+				/OrderMannagementController/**=anon
+				/SellOrderMannagementController/**=anon
+				<!-- end  xsh的权限 -->
+				
+				<!-- lbl的权限 -->
+				/add/**=anon
+				/select/**=anon
+				/update/**=anon
+				/delete/**=anon
+				<!-- end lbl的权限 -->
+				<!-- 临时路径 -->
+				/financialManagement/**=anon
+				/editRecordBillSubmit/**=anon
+				/basicInformation/**=anon
+				<!-- end 临时路径 -->
+				<!-- 系统权限 -->
+				/logout=logout
+				/login.jsp=anon
+				/** = authc
+				<!-- end系统权限 -->
+				
+				
+			</value>
+		</property>
+	</bean>
+	<bean id="securityManager"
+		class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="myRealm" />
+	</bean>
+	<bean id="lifecycleBeanPostProcessor"
+		class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+	<bean id="myRealm" class="com.hqyj.shiro.MyRealm"></bean>
+</beans>

@@ -1,0 +1,52 @@
+package com.hqyj.controller.bt;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
+import com.hqyj.model.bt.ErpsysBasicInformation;
+import com.hqyj.service.bt.ErpsysBasicInformationService;
+
+@Controller
+@RequestMapping("/ErpsysBasicInformation")
+public class ErpsysBasicInformationController  {
+	
+	@Autowired
+	private ErpsysBasicInformationService erpsysBasicInformationService;
+	@RequestMapping("/main1")  //处理main1请求
+    public String main1(HttpServletRequest request){
+		
+		request = erpsysBasicInformationService.main1(request);
+		
+        return "bt/main1";   
+    }
+	@RequestMapping("/login1")  //处理login1请求
+    public  ModelAndView login1(String accountId,String accountPwd,ModelAndView mv,HttpSession session){
+        
+       ErpsysBasicInformation ebi = erpsysBasicInformationService.login1(accountId, accountPwd); //调用业务层方法返回一个实例对象
+        
+        if (ebi!=null) {  //判断查到的数据是否为空
+            //如果用户不为空，设在Session域中
+            session.setAttribute("ebi",ebi);
+            
+            mv.setView(new RedirectView("/WEB-INF/bt/main1")); //重定向到main页面中
+           
+        }else {
+            
+            mv.addObject("message","登录名或者密码错误，请重新输入");
+            
+            mv.setViewName("login1"); //重新设置view视图页面
+            
+            
+        }
+        
+        return mv; //返回视图
+    }
+
+}
+	

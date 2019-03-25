@@ -1,0 +1,97 @@
+package com.hqyj.service.im.lbl;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.google.gson.Gson;
+import com.hqyj.mapper.lbl.ErpsysProductMapper;
+import com.hqyj.model.lbl.ErpsysProduct;
+import com.hqyj.service.lbl.ProductingService;
+
+@Service
+public class ProductingServiceImpl implements ProductingService{
+
+	private static final int PAGE_SIZE=2;
+	@Autowired
+	private ErpsysProductMapper epm;
+	@Autowired
+	private Gson g;
+
+	@Override
+	public int insert(HttpServletRequest request) {
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			date = sdf.parse(request.getParameter("product_time")+"00:00:00");
+			sdf.format(date);
+			System.out.println(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		ErpsysProduct ep=new ErpsysProduct();
+		ep.setProductId(Integer.parseInt(request.getParameter("product_id")));
+		ep.setProductTime(date);
+		ep.setProductNumber(Integer.parseInt(request.getParameter("product_number")));
+		ep.setProductBatch(request.getParameter("product_batch"));
+		return epm.insert(ep);
+	}
+
+	@Override
+	public String getPageInfo(HttpServletRequest request) {
+		String sk=request.getParameter("sreachKey");
+		if(sk==null) {
+			sk="";
+		}
+		int totalRecords=epm.selectCount("%"+sk+"%");
+		int total=totalRecords/PAGE_SIZE;
+		if(totalRecords%PAGE_SIZE>0) {
+			total++;
+		}
+		Map<String, String> map=new HashMap<String, String>();
+		map.put("totalRecords", totalRecords+"");
+		map.put("total", total+"");
+		return g.toJson(map);
+	}
+
+	@Override
+	public String selectProductTableByJson(HttpServletRequest request) {
+		String n=request.getParameter("n");
+		String sk=request.getParameter("sreachKey");
+		if(sk==null) {
+			sk="";
+		}
+		int start=0;
+		if(n==null) {
+			
+		}else {
+			int intN=Integer.parseInt(n);
+			start=(intN-1)*PAGE_SIZE;
+		}
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("size", PAGE_SIZE);
+		map.put("sreachKey", "%"+sk+"%");
+		// TODO 自动生成的方法存根
+		return g.toJson(epm.selectProductDateByPage(map));
+	}
+
+	@Override
+	public int deleteByPrimaryKey(HttpServletRequest request) {
+		return 0;
+		
+	}
+
+
+}
+
+

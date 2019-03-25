@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hqyj.mapper.xx.WareHouseModelMapper">
+	<resultMap id="BaseResultMap" type="com.hqyj.model.xx.WareHouseModel">
+		<id column="production_warehouse_id" jdbcType="INTEGER"
+			property="productionWarehouseId" />
+		<result column="production_name" jdbcType="VARCHAR" property="productionName" />
+		<result column="production_number" jdbcType="INTEGER" property="productionNumber" />
+		<result column="production_type" jdbcType="VARCHAR" property="productionType" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		production_warehouse_id, production_name,
+		production_number, production_type
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from erpsys_warehouse
+		where production_warehouse_id =
+		#{productionWarehouseId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		erpsys_warehouse
+		where production_warehouse_id =
+		#{productionWarehouseId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.hqyj.model.xx.WareHouseModel">
+		insert into erpsys_warehouse
+		(production_warehouse_id, production_name,
+		production_number,
+		production_type)
+		values (#{productionWarehouseId,jdbcType=INTEGER},
+		#{productionName,jdbcType=VARCHAR},
+		#{productionNumber,jdbcType=INTEGER},
+		#{productionType,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.hqyj.model.xx.WareHouseModel">
+		insert into erpsys_warehouse
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productionWarehouseId != null">
+				production_warehouse_id,
+			</if>
+			<if test="productionName != null">
+				production_name,
+			</if>
+			<if test="productionNumber != null">
+				production_number,
+			</if>
+			<if test="productionType != null">
+				production_type,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="productionWarehouseId != null">
+				#{productionWarehouseId,jdbcType=INTEGER},
+			</if>
+			<if test="productionName != null">
+				#{productionName,jdbcType=VARCHAR},
+			</if>
+			<if test="productionNumber != null">
+				#{productionNumber,jdbcType=INTEGER},
+			</if>
+			<if test="productionType != null">
+				#{productionType,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.hqyj.model.xx.WareHouseModel">
+		update erpsys_warehouse
+		<set>
+			<if test="productionName != null">
+				production_name = #{productionName,jdbcType=VARCHAR},
+			</if>
+			<if test="productionNumber != null">
+				production_number = #{productionNumber,jdbcType=INTEGER},
+			</if>
+			<if test="productionType != null">
+				production_type = #{productionType,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where production_warehouse_id =
+		#{productionWarehouseId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.hqyj.model.xx.WareHouseModel">
+		update
+		erpsys_warehouse
+		set production_name =
+		#{productionName,jdbcType=VARCHAR},
+		production_number =
+		#{productionNumber,jdbcType=INTEGER},
+		production_type =
+		#{productionType,jdbcType=VARCHAR}
+		where production_warehouse_id =
+		#{productionWarehouseId,jdbcType=INTEGER}
+	</update>
+	<!-- ################################################################ -->
+	<select id="SelectAllWare" resultMap="BaseResultMap">
+		SELECT * FROM
+		erpsys_warehouse
+	</select>
+	<insert id="AddWareDo" parameterType="com.hqyj.model.xx.WareHouseModel">
+		insert into
+		erpsys_warehouse
+		( production_name,
+		production_number,
+		production_type)
+		values (
+		#{productionName,jdbcType=VARCHAR},
+		#{productionNumber,jdbcType=INTEGER},
+		#{productionType,jdbcType=VARCHAR})
+	</insert>
+	<delete id="DeleteByProductionWarehouseId" parameterType="java.lang.Integer">
+		delete from
+		erpsys_warehouse
+		where production_warehouse_id =
+		#{productionWarehouseId,jdbcType=INTEGER}
+	</delete>
+	<select id="seleByproductionWarehouseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+			SELECT * FROM
+		erpsys_warehouse
+				where production_warehouse_id =
+		#{productionWarehouseId,jdbcType=INTEGER}
+	</select>
+</mapper>

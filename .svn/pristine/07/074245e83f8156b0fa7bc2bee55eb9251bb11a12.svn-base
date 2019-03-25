@@ -1,0 +1,44 @@
+package com.hqyj.controller.xsh;
+
+import java.io.UnsupportedEncodingException;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.hqyj.service.xsh.BuyOrderMannagementService;
+
+@Controller
+@RequestMapping("/BuyOrderMannagementController")
+public class BuyOrderMannagementController {
+
+	@Resource
+	private BuyOrderMannagementService boms;
+
+	@RequestMapping("/queryAllBuyOrderByOrderType")
+	public String queryAllBuyOrderByOrderType(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException {
+
+		response.setHeader("Content-Type", "text/html;charset=UTF-8");//设置UTF-8的显示页面的类型和字符集
+		request.setCharacterEncoding("utf-8");
+		
+		boms.queryAllBuyOrder(request);
+
+		
+
+		return "xsh/BuyOrderMannagement";
+
+	}
+	
+	@RequestMapping("/deleteBuyOrderByBuyLogId")
+	public String deleteBuyOrderByBuyLogId(HttpServletRequest request){
+		
+		boms.deleteBuyOrderByBuyLogId(request);
+		
+		return "redirect:/BuyOrderMannagementController/queryAllBuyOrderByOrderType";
+		
+	}
+
+}

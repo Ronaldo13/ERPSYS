@@ -1,0 +1,175 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<link rel="stylesheet" href="<%=basePath%>style/css/bootstrap.min.css">
+<script src="<%=basePath%>style/js/jquery-3.1.1.min.js"></script>
+<link rel="stylesheet" href="style/lib/layui/css/layui.css">
+<link rel="stylesheet" href="<%=basePath%>style/css/cutsom-style.css">
+<script src="<%=basePath%>style/lib/layui/layui.js" charset="utf-8"></script>
+
+<body>
+	<div id="" style="">
+		<form class="form-inline">
+			<button type="button" class="btn btn-success">
+				<span class="glyphicon glyphicon-plus"></span> 增加新账单
+			</button>
+			<button type="button" class="btn btn-danger">
+				<span class="glyphicon glyphicon-minus"></span> 删除选中账单
+			</button>
+			<div class="form-group">
+				<label class="sr-only">Email</label>
+				<p class="form-control-static">账单金额范围:</p>
+			</div>
+			<div class="form-group">
+				<input style="width: 8em;" type="text" class="form-control"
+					id="startMoney" name="startMoney" placeholder="起始值" value="${startMoney }">
+			</div>
+			<span>-</span>
+			<div class="form-group">
+				<input style="width: 8em;" type="text" class="form-control"
+					id="endMoney" name="endMoney" placeholder="结束值" value="${endMoney }">
+			</div>
+			<button type="button" class="btn btn-default" onclick="searchMoney()">
+				<span class="glyphicon glyphicon-search"></span> 查询
+			</button>
+
+			<table class="table table-hover" style="text-align: center;">
+				<tr style="font-weight: bold;">
+					<td>#</td>
+					<td>入账账单编号</td>
+					<td>入账金额</td>
+					<td>入账原因</td>
+					<td>入账时间</td>
+					<td>操作</td>
+				</tr>
+				<tbody>
+					<c:forEach items="${erpsysRecordList }" var="records">
+						<tr>
+							<td><input type="checkbox" name="checks[]"
+								id="${records.recordId }" value="" /></td>
+							<td>${records.recordId }</td>
+							<td>${records.recordMoney }</td>
+							<td>${records.recordReason }</td>
+							<td>${records.recordTimeString }</td>
+							<td>
+								<div class="btn-group" role="group">
+									<button type="button" class="btn btn-default btn-sm"
+										onclick="show('入账账单管理','<%=basePath%>editRecordBill?recordId=${records.recordId }','400','500')">
+										<span class="glyphicon glyphicon-pencil"></span> 编辑
+									</button>
+									<button type="button" class="btn btn-danger btn-sm">
+										<span class="glyphicon glyphicon-remove"></span> 删除
+									</button>
+								</div>
+							</td>
+						</tr>
+					</c:forEach>
+
+					<tr>
+						<td colspan="6" style="text-align: left;">
+							<div class="btn-group" role="group">
+								<button type="button" id="checkall"
+									onclick="checkall('checkall')" class="btn btn-default">
+									<span class="glyphicon glyphicon-ok-circle"></span> 全选
+								</button>
+								<button type="button" id="checkall"
+									onclick="checkall('unCheckall')" class="btn btn-default">
+									<span class="glyphicon glyphicon-ban-circle"></span> 全不选
+								</button>
+								<button type="button" id="checkall"
+									onclick="checkall('reversedCheck')" class="btn btn-default">
+									<span class="glyphicon glyphicon-retweet"></span> 反选
+								</button>
+							</div>
+						</td>
+
+					</tr>
+					<tr>
+						<!-- kkpager -->
+						<td colspan="6">
+							<div class="pagelist">
+								<a href="">上一页</a> <span class="current">1</span> <a href="">2</a>
+								<a href="">3</a> <a href="">下一页</a> <a href="">尾页</a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+
+</body>
+<script>
+	$(function(){
+		var warning = "${warning }";
+		if(warning!=""){
+			alert(warning);
+		}
+	});
+	function checkall(type) {
+		if (type == "checkall") {
+			$("input[name='checks[]']").each(function() {
+				this.checked = true;
+			});
+		} else if (type == "unCheckall") {
+			$("input[name='checks[]']").each(function() {
+				this.checked = false;
+			});
+		} else if (type == "reversedCheck") {
+			$("input[name='checks[]']").each(function() {
+				if (this.checked) {
+					this.checked = false;
+				} else {
+					this.checked = true;
+				}
+			});
+		}
+	}
+	function show(title, url, w, h) {
+		layui.use('layer', function() {
+			var layer = layui.layer;
+			layer.open({
+				type : 2,
+				area : [ w + 'px', h + 'px' ],
+				fix : false, //不固定
+				shadeClose : true,
+				shade : 0.4,
+				title : title,
+				content : url,
+				end: function(){ 
+				    //右上角关闭回调
+				    window.location.reload();
+				    //return false 开启该代码可禁止点击该按钮关闭
+				  }
+			});
+		});
+	}
+	function searchMoney(){
+		var startMoney = $("#startMoney").val();
+		var endMoney = $("#endMoney").val();
+		alert(startMoney+','+endMoney);
+		
+		if(startMoney>endMoney){
+			alery("起始值不能大于结束值！")
+		}else{
+			if(startMoney==null){
+				window.location.href="<%=basePath%>financialManagement?endMoney="+endMoney;
+			}
+			if(endMoney==null){
+				window.location.href="<%=basePath%>financialManagement?startMoney="+startMoney;
+			}else{
+				window.location.href="<%=basePath%>financialManagement?startMoney="+startMoney+"&endMoney="+endMoney;
+			}
+		}
+	}
+	
+</script>
+
+</html>

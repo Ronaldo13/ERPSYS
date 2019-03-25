@@ -1,0 +1,75 @@
+package com.hqyj.service.im.lbl;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.google.gson.Gson;
+import com.hqyj.mapper.lbl.ErpsysProductMaterialConsumeMapper;
+import com.hqyj.model.lbl.ErpsysProductMaterialConsume;
+import com.hqyj.service.lbl.ProductMaterialService;
+
+@Service
+public class ProductMaterialServiceImpl implements ProductMaterialService{
+	private static final int PAGE_SIZE=2;
+	
+	@Autowired
+	private ErpsysProductMaterialConsumeMapper epmcm;
+	@Autowired
+	private Gson g;
+	@Override
+	public int insert(HttpServletRequest request) {
+		ErpsysProductMaterialConsume epmc = new ErpsysProductMaterialConsume();
+		epmc.setProductBatch(request.getParameter("product_batch"));
+		epmc.setProductionWarehouseId(Integer.parseInt(request.getParameter("production_warehouse_id")));
+		epmc.setOutWarehouseLogId(Integer.parseInt(request.getParameter("out_warehouse_log_id")));
+		return epmcm.insert(epmc);
+	}
+	@Override
+	public int deleteByPrimaryKey(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public String selectProductMaterialTableByJson(HttpServletRequest request) {
+		String n=request.getParameter("n");
+		String sk=request.getParameter("sreachKey");
+		if(sk==null) {
+			sk="";
+		}
+		int start=0;
+		if(n==null) {
+			
+		}else {
+			int intN=Integer.parseInt(n);
+			start=(intN-1)*PAGE_SIZE;
+		}
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("size", PAGE_SIZE);
+		map.put("sreachKey", "%"+sk+"%");
+		// TODO 自动生成的方法存根
+		return g.toJson(epmcm.selectProductMaterialDateByPage(map));
+	}
+	@Override
+	public String getPageInfo(HttpServletRequest request) {
+		String sk=request.getParameter("sreachKey");
+		if(sk==null) {
+			sk="";
+		}
+		int totalRecords=epmcm.selectCount("%"+sk+"%");
+		int total=totalRecords/PAGE_SIZE;
+		if(totalRecords%PAGE_SIZE>0) {
+			total++;
+		}
+		Map<String, String> map=new HashMap<String, String>();
+		map.put("totalRecords", totalRecords+"");
+		map.put("total", total+"");
+		return g.toJson(map);
+	}
+
+}

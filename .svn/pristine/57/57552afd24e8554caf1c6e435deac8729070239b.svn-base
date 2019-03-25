@@ -1,0 +1,140 @@
+package com.hqyj.service.im.lbl;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.google.gson.Gson;
+import com.hqyj.mapper.lbl.ErpsysProductResultMapper;
+import com.hqyj.mapper.xx.WareHouseModelMapper;
+import com.hqyj.model.lbl.ErpsysProductResult;
+import com.hqyj.model.xx.WareHouseModel;
+import com.hqyj.service.lbl.ProductResultService;
+
+@Service
+public class ProductResultServiceImpl implements ProductResultService {
+
+	private static final int PAGE_SIZE=2;
+	@Autowired
+	private ErpsysProductResultMapper eprm;
+	@Autowired
+	private WareHouseModelMapper whmm;
+	@Autowired
+	private Gson g;
+
+	/**
+	 * .增加
+	 */
+	@Override
+	public int insert(HttpServletRequest request) {
+		ErpsysProductResult epr = new ErpsysProductResult();
+		epr.setProductBatch(request.getParameter("product_batch"));
+		epr.setProductionWarehouseId(Integer.parseInt(request.getParameter("production_warehouse_id")));
+		epr.setProductionOutLogId(Integer.parseInt(request.getParameter("production_out_log_id")));
+		return eprm.insert(epr);
+	}
+
+	/**
+	 * .查询以及分页
+	 */
+	@Override
+	public String getPageInfo(HttpServletRequest request) {
+		String sk=request.getParameter("sreachKey");
+		if(sk==null) {
+			sk="";
+		}
+		int totalRecords=eprm.selectCount("%"+sk+"%");
+		int total=totalRecords/PAGE_SIZE;
+		if(totalRecords%PAGE_SIZE>0) {
+			total++;
+		}
+		Map<String, String> map=new HashMap<String, String>();
+		map.put("totalRecords", totalRecords+"");
+		map.put("total", total+"");
+		return g.toJson(map);		
+	}
+
+	@Override
+	public String selectProductResultTableByJson(HttpServletRequest request) {
+		String n = request.getParameter("currentPage");
+		String sk = request.getParameter("sreachKey");
+		if (sk == null) {
+			sk = "";
+		}
+		int start = 0;
+		if (n == null) {
+
+		} else {
+			int intN = Integer.parseInt(n);
+			start = (intN - 1) * PAGE_SIZE;
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("size", PAGE_SIZE);
+		map.put("sreachKey", "%" + sk + "%");
+		// TODO 自动生成的方法存根
+		return g.toJson(eprm.selectProductResultDateByPage(map));
+	}
+
+	
+	/**
+	 * .更新
+	 */
+	@Override
+	public HttpServletRequest initUpdateproductresultdatePage(HttpServletRequest request) {
+		try {
+			ErpsysProductResult erpsysProductResult = eprm.selectByPrimaryKey(request.getParameter("productBatch"));
+			request.setAttribute("erpsysProductResult", erpsysProductResult);
+		} catch (Exception e) {
+			request.setAttribute("message", "初始化界面出错！请联系管理员!");
+		}
+		return request;
+	}
+
+	@Override
+	public int updateByPrimaryKey(HttpServletRequest request) {
+		ErpsysProductResult epr = new ErpsysProductResult();
+		epr.setProductBatch(request.getParameter("product_batch"));
+		epr.setProductionWarehouseId(Integer.parseInt(request.getParameter("production_warehouse_id")));
+		epr.setProductionOutLogId(Integer.parseInt(request.getParameter("production_out_log_id")));
+		return eprm.updateByPrimaryKey(epr);
+	}
+	
+	/**
+	 * .删除
+	 */
+	@Override
+	public int deleteByPrimaryKey(HttpServletRequest request) {
+		return eprm.deleteByPrimaryKey(request.getParameter("productBatch"));
+	}
+
+	/**
+	 * .批量删除
+	 */
+	@Override
+	public int PLdeleteproductresultdate(HttpServletRequest request) {
+		int i = 0;
+		String [] productBatch = request.getParameterValues("product_batch");
+		try {
+			for (String string : productBatch) {
+				int j = eprm.deleteByPrimaryKey(string);
+				i = i + j;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return 0;
+		}
+		return i;
+	}
+
+	@Override
+	public void selectWareHouseDate2(HttpServletRequest request) {
+		WareHouseModel whm =whmm.selectByPrimaryKey(Integer.parseInt(request.getParameter("productionWarehouseId")));
+		request.setAttribute("whm", whm);		
+	}
+
+}
